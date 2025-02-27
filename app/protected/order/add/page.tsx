@@ -3,6 +3,7 @@
 import { CustomerAvatar } from "@/components/customer/avatar";
 import { CustomerMeasurements } from "@/components/customer/measurements";
 import { Button } from "@/components/ui/button";
+import Loading from "@/components/loading";
 import {
   Card,
   CardFooter,
@@ -24,11 +25,19 @@ import { addOrderAction } from "@/lib/actions/order.actions";
 import { Customer } from "@/lib/model/customer.model";
 import { Order } from "@/lib/model/order.model";
 import { redirect, useParams, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export default function AddOrder() {
+export default function AddOrderSuspense() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <AddOrder />
+    </Suspense>
+  );
+}
+
+function AddOrder() {
   const searchParams = useSearchParams();
   const customerId = searchParams.get("customerId");
   const [customer, setCustomer] = useState<Customer | null>(null);

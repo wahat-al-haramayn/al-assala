@@ -1,12 +1,10 @@
-import DeployButton from "@/components/deploy-button";
-import { EnvVarWarning } from "@/components/env-var-warning";
 import HeaderAuth from "@/components/header-auth";
-import { ThemeSwitcher } from "@/components/theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
+import Image from "next/image";
+import { Toaster } from "react-hot-toast";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -29,11 +27,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html
+      dir="rtl"
+      lang="ar"
+      className={geistSans.className}
+      suppressHydrationWarning
+    >
       <body className="bg-background text-foreground">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         >
@@ -42,35 +45,41 @@ export default function RootLayout({
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
-                    <Link href={"/"}>Next.js Supabase Starter</Link>
-                    <div className="flex items-center gap-2">
+                    <Link href={"/"}>
+                      <Image
+                        src={"/img/haramayn-logo_black.webp"}
+                        className="my-2"
+                        alt="logo"
+                        width={60}
+                        height={60}
+                      />
+                    </Link>
+                    {/* <div className="flex items-center gap-2">
                       <DeployButton />
-                    </div>
+                    </div> */}
                   </div>
-                  {!hasEnvVars ? <EnvVarWarning /> : <HeaderAuth />}
+                  {<HeaderAuth />}
                 </div>
               </nav>
               <div className="flex flex-col gap-20 max-w-5xl p-5">
                 {children}
               </div>
 
-              <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-16">
-                <p>
-                  Powered by{" "}
-                  <a
-                    href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-                    target="_blank"
-                    className="font-bold hover:underline"
-                    rel="noreferrer"
-                  >
-                    Supabase
-                  </a>
-                </p>
-                <ThemeSwitcher />
+              <footer className="w-full flex-col flex items-center justify-center border-t mx-auto text-center text-xs gap-2 py-16">
+                <Image
+                  src={"/img/haramayn-logo_black.webp"}
+                  className="my-2"
+                  alt="logo"
+                  width={40}
+                  height={40}
+                />
+                <p className="text-lg">عشاق الأصالة</p>
+                {/* <ThemeSwitcher /> */}
               </footer>
             </div>
           </main>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );

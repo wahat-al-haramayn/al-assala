@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 export const signUpAction = async (formData: FormData) => {
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
+  const displayName = formData.get("displayName")?.toString();
+
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
@@ -15,7 +17,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/sign-up",
-      "Email and password are required",
+      "البريد الإلكتروني وكلمة المرور مطلوبان",
     );
   }
 
@@ -23,6 +25,9 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
+      data: {
+        displayName,
+      },
       emailRedirectTo: `${origin}/auth/callback`,
     },
   });
@@ -34,7 +39,7 @@ export const signUpAction = async (formData: FormData) => {
     return encodedRedirect(
       "success",
       "/sign-up",
-      "Thanks for signing up! Please check your email for a verification link.",
+      "شكراً على التسجيل! يرجى التحقق من بريدك الإلكتروني للحصول على رابط التحقق.",
     );
   }
 };
@@ -75,7 +80,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
     return encodedRedirect(
       "error",
       "/forgot-password",
-      "Could not reset password",
+      "لم يتم إعادة تعيين كلمة المرور",
     );
   }
 
@@ -86,7 +91,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   return encodedRedirect(
     "success",
     "/forgot-password",
-    "Check your email for a link to reset your password.",
+    "يرجى التحقق من بريدك الإلكتروني للحصول على رابط إعادة تعيين كلمة المرور.",
   );
 };
 
@@ -100,7 +105,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Password and confirm password are required",
+      "كلمة المرور وتأكيد كلمة المرور مطلوبان",
     );
   }
 
@@ -108,7 +113,7 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Passwords do not match",
+      "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
     );
   }
 
@@ -120,11 +125,15 @@ export const resetPasswordAction = async (formData: FormData) => {
     encodedRedirect(
       "error",
       "/protected/reset-password",
-      "Password update failed",
+      "لم يتم تحديث كلمة المرور",
     );
   }
 
-  encodedRedirect("success", "/protected/reset-password", "Password updated");
+  encodedRedirect(
+    "success",
+    "/protected/reset-password",
+    "تم تحديث كلمة المرور",
+  );
 };
 
 export const signOutAction = async () => {

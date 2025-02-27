@@ -1,4 +1,4 @@
-import { signUpAction } from "@/app/actions";
+import { signUpAction } from "@/lib/actions/auth.actions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
@@ -21,31 +21,33 @@ export default async function Signup(props: {
   return (
     <>
       <form className="flex flex-col min-w-64 max-w-64 mx-auto">
-        <h1 className="text-2xl font-medium">Sign up</h1>
+        <h1 className="text-2xl font-medium">اشترك</h1>
         <p className="text-sm text text-foreground">
-          Already have an account?{" "}
+          لديك حساب بالفعل؟{" "}
           <Link className="text-primary font-medium underline" href="/sign-in">
-            Sign in
+            تسجيل الدخول
           </Link>
         </p>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-          <Label htmlFor="email">Email</Label>
-          <Input name="email" placeholder="you@example.com" required />
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="displayName">الاسم</Label>
+          <Input name="displayName" placeholder="الاسم" required />
+          <Label htmlFor="email">البريد الإلكتروني</Label>
+          <Input name="email" placeholder="البريد الإلكتروني" required />
+          <Label htmlFor="password">كلمة المرور</Label>
           <Input
             type="password"
             name="password"
-            placeholder="Your password"
+            placeholder="كلمة المرور"
             minLength={6}
             required
           />
-          <SubmitButton formAction={signUpAction} pendingText="Signing up...">
-            Sign up
+          <SubmitButton formAction={signUpAction} pendingText="جارٍ التسجيل...">
+            اشترك
           </SubmitButton>
           <FormMessage message={searchParams} />
         </div>
       </form>
-      <SmtpMessage />
+      {/* <SmtpMessage /> */}
     </>
   );
 }

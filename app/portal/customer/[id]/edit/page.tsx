@@ -26,20 +26,23 @@ import { toast } from "react-hot-toast";
 export default function EditCustomer() {
   const { id } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCustomer = async () => {
       if (!id) return;
 
+      setLoading(true);
       const result = await getCustomerByIdAction(id as string);
 
       if (!result) {
         toast.error("لم يتم العثور على الزبون");
-        redirect("/protected/customer");
+        redirect("/portal/customer");
       }
 
       setCustomer(result);
       reset(result);
+      setLoading(false);
     };
 
     fetchCustomer();
@@ -53,20 +56,21 @@ export default function EditCustomer() {
   } = useForm<Customer>();
 
   const onSubmit = async (data: Customer) => {
-    console.log(data);
+    setLoading(true);
     const customer = { ...data };
     const result = await updateCustomerAction(id as string, customer);
 
     if (!result) {
       toast.error("حدث خطأ أثناء تعديل الزبون");
+      setLoading(false);
       return;
     }
 
     toast.success("تم تعديل الزبون بنجاح");
-    redirect("/protected/customer");
+    redirect("/portal/customer");
   };
 
-  if (!customer) {
+  if (!customer || loading) {
     return <Loading className="w-10 h-10" />;
   }
 
@@ -84,7 +88,7 @@ export default function EditCustomer() {
               id="name"
               type="phone"
               className={`${errors.phoneNumber ? "border-red-500" : ""}`}
-              placeholder="0664601048"
+              placeholder="0606060606"
               {...register("phoneNumber", {
                 required: true,
                 pattern: {
@@ -196,7 +200,15 @@ export default function EditCustomer() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button>تعديل</Button>
+          <Button type="submit">تعديل</Button>
+          <Button
+            type="button"
+            className="mr-2"
+            variant="outline"
+            onClick={() => redirect("/portal/customer")}
+          >
+            إلغاء
+          </Button>
         </CardFooter>
       </Card>
     </form>

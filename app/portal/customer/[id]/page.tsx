@@ -11,17 +11,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label, Separator } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loading from "@/components/loading";
 import { getCustomerByIdAction } from "@/lib/actions/customer.actions";
-import { redirect, useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Customer } from "@/lib/model/customer.model";
 import Link from "next/link";
 import { CustomerMeasurements } from "@/components/customer/measurements";
 
 export default function ViewCustomer() {
+  const router = useRouter();
   const { id } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
 
@@ -33,7 +34,7 @@ export default function ViewCustomer() {
 
       if (!result) {
         toast.error("لم يتم العثور على الزبون");
-        redirect("/protected/customer");
+        redirect("/portal/customer");
       }
 
       setCustomer(result);
@@ -50,7 +51,15 @@ export default function ViewCustomer() {
     <div className="flex flex-col gap-4 min-w-[30rem]">
       <Card>
         <CardHeader>
-          <CardTitle>الزبون</CardTitle>
+          <CardTitle className="flex items-center justify-between">
+            الزبون
+            <Link href={`/portal/order/add?customerId=${customer.id}`}>
+              <Button>
+                <ShoppingCart className="w-4 h-4 ml-2" />
+                طلب
+              </Button>
+            </Link>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
@@ -59,7 +68,7 @@ export default function ViewCustomer() {
               className="flex items-center justify-between space-x-4"
             >
               <Link
-                href={`/protected/customer/${customer.id}`}
+                href={`/portal/customer/${customer.id}`}
                 className="flex items-center space-x-4 gap-2"
               >
                 <Avatar>
@@ -79,7 +88,7 @@ export default function ViewCustomer() {
               </Link>
               <Button
                 onClick={() => {
-                  redirect(`/protected/customer/${customer.id}/edit`);
+                  redirect(`/portal/customer/${customer.id}/edit`);
                 }}
                 variant="outline"
               >

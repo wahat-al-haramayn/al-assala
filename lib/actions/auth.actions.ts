@@ -58,7 +58,7 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/protected");
+  return redirect("/portal");
 };
 
 export const forgotPasswordAction = async (formData: FormData) => {
@@ -72,7 +72,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
+    redirectTo: `${origin}/auth/callback?redirect_to=/portal/reset-password`,
   });
 
   if (error) {
@@ -104,7 +104,7 @@ export const resetPasswordAction = async (formData: FormData) => {
   if (!password || !confirmPassword) {
     encodedRedirect(
       "error",
-      "/protected/reset-password",
+      "/portal/reset-password",
       "كلمة المرور وتأكيد كلمة المرور مطلوبان",
     );
   }
@@ -112,7 +112,7 @@ export const resetPasswordAction = async (formData: FormData) => {
   if (password !== confirmPassword) {
     encodedRedirect(
       "error",
-      "/protected/reset-password",
+      "/portal/reset-password",
       "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
     );
   }
@@ -124,14 +124,14 @@ export const resetPasswordAction = async (formData: FormData) => {
   if (error) {
     encodedRedirect(
       "error",
-      "/protected/reset-password",
+      "/portal/reset-password",
       "لم يتم تحديث كلمة المرور",
     );
   }
 
   encodedRedirect(
     "success",
-    "/protected/reset-password",
+    "/portal/reset-password",
     "تم تحديث كلمة المرور",
   );
 };

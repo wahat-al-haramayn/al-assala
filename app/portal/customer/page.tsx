@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SearchIcon, XIcon } from "lucide-react";
+import { PlusIcon, SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Customer } from "@/lib/model/customer.model";
 import Loading from "@/components/loading";
@@ -20,8 +20,7 @@ import {
   searchCustomersAction,
 } from "@/lib/actions/customer.actions";
 import { redirect } from "next/navigation";
-import Link from "next/link";
-import { CustomerAvatar } from "@/components/customer/avatar";
+import CustomerList from "@/components/customer/customer-list";
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[] | null>(null);
@@ -69,7 +68,17 @@ export default function Customers() {
     <div className="flex flex-col gap-4 min-w-[30rem]">
       <Card>
         <CardHeader>
-          <CardTitle>الزبائن</CardTitle>
+          <CardTitle className="flex items-center justify-between gap-2">
+            الزبائن
+            <Button
+              onClick={() => {
+                redirect("/portal/customer/add");
+              }}
+            >
+              <PlusIcon className="w-4 h-4 ml-2" />
+              إضافة زبون
+            </Button>
+          </CardTitle>
           <CardDescription>
             يمكنك إضافة زبون جديد أو تعديل زبون موجود
           </CardDescription>
@@ -109,27 +118,8 @@ export default function Customers() {
                 <div className="flex justify-center items-center h-full">
                   <Loading />
                 </div>
-              ) : searchCustomers?.length === 0 ? (
-                <div className="flex justify-center items-center h-full">
-                  <p className="text-sm text-muted-foreground">لا يوجد زبائن</p>
-                </div>
               ) : (
-                searchCustomers?.map((customer) => (
-                  <div
-                    key={"customer-" + customer.id}
-                    className="flex items-center justify-between space-x-4"
-                  >
-                    <CustomerAvatar customer={customer} />
-                    <Button
-                      onClick={() => {
-                        redirect(`/protected/customer/${customer.id}/edit`);
-                      }}
-                      variant="outline"
-                    >
-                      تعديل
-                    </Button>
-                  </div>
-                ))
+                <CustomerList customers={searchCustomers} />
               )}
             </div>
           </div>

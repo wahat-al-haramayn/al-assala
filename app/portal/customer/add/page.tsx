@@ -1,9 +1,6 @@
 "use client";
 
-import { CustomerAvatar } from "@/components/customer/avatar";
-import { CustomerMeasurements } from "@/components/customer/measurements";
 import { Button } from "@/components/ui/button";
-import Loading from "@/components/loading";
 import {
   Card,
   CardFooter,
@@ -14,120 +11,59 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
 import {
   addCustomerAction,
-  getCustomerByIdAction,
   getCustomerByPhoneNumberAction,
 } from "@/lib/actions/customer.actions";
-import { addOrderAction } from "@/lib/actions/order.actions";
 import { Customer } from "@/lib/model/customer.model";
-import { Order } from "@/lib/model/order.model";
-import { redirect, useParams, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
-export default function AddOrderSuspense() {
-  return (
-    <Suspense fallback={<Loading />}>
-      <AddOrder />
-    </Suspense>
-  );
-}
-
-function AddOrder() {
-  const searchParams = useSearchParams();
-  const customerId = searchParams.get("customerId");
-  const [customer, setCustomer] = useState<Customer | null>(null);
+export default function AddUser() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Order>();
+  } = useForm<Customer>();
 
-  useEffect(() => {
-    const fetchCustomer = async () => {
-      if (!customerId) {
-        redirect("/protected/customer");
-      }
+  const onSubmit = async (data: Customer) => {
+    const customerQuery = await getCustomerByPhoneNumberAction(
+      data.phoneNumber
+    );
 
-      const result = await getCustomerByIdAction(customerId as string);
-
-      if (!result) {
-        toast.error("لم يتم العثور على الزبون");
-        redirect("/protected/customer");
-      }
-
-      setCustomer(result);
-    };
-
-    fetchCustomer();
-  }, [customerId]);
-
-  const onSubmit = async (data: Order) => {
-    const order = {
-      ...data,
-      customerId: customerId as string,
-    };
-
-    const result = await addOrderAction(order);
-    if (!result) {
-      toast.error("حدث خطأ أثناء إضافة الطلب");
+    if (customerQuery) {
+      toast.error("الرقم المدخل مستخدم من قبل زبون آخر");
+      return;
     }
-    toast.success("تم إضافة الطلب بنجاح");
-    redirect("/protected/order");
+
+    const customer = { ...data };
+    const result = await addCustomerAction(customer);
+
+    if (!result) {
+      toast.error("حدث خطأ أثناء إضافة الزبون");
+      return;
+    }
+
+    toast.success("تم إضافة الزبون بنجاح");
+    redirect("/portal/customer");
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="min-w-[30rem]">
+      <Card>
         <CardHeader>
-          <CardTitle>طلب جديد</CardTitle>
-          <CardDescription>يمكنك إضافة طلب جديد هنا</CardDescription>
+          <CardTitle>زبون جديد</CardTitle>
+          <CardDescription>يمكنك إضافة زبون جديد هنا</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-col space-x-2 gap-2">
-            {customer && (
-              <div className="flex flex-col gap-4">
-                <CustomerAvatar customer={customer} disabled={true} />
-                <CustomerMeasurements customer={customer} />
-              </div>
-            )}
-
-            <Separator className="my-4" />
-
-            <Label htmlFor="deposit">المبلغ المدفوع</Label>
-            <Input
-              id="deposit"
-              placeholder="المبلغ المدفوع"
-              className={`${errors.deposit ? "border-red-500" : ""}`}
-              {...register("deposit", { required: true })}
-            />
-
-            <Label htmlFor="notes">تفاصيل الطلب</Label>
-            <Textarea
-              id="notes"
-              placeholder="تفاصيل"
-              className={`${errors.notes ? "border-red-500" : ""}`}
-              {...register("notes", { required: true })}
-            />
-
-            <Label htmlFor="total">المبلغ الكلي</Label>
-            <Input
-              id="total"
-              placeholder="المبلغ الكلي"
-              className={`${errors.total ? "border-red-500" : ""}`}
-              {...register("total", { required: true })}
-            />
-
-            {/*<Label htmlFor="name">رقم الهاتف</Label>
+        <CardContent className="space-y-2">
+          <div className="space-y-1">
+            <Label htmlFor="name">رقم الهاتف</Label>
             <Input
               id="name"
               type="phone"
               className={`${errors.phoneNumber ? "border-red-500" : ""}`}
-              placeholder="0664601048"
+              placeholder="0606060606"
               {...register("phoneNumber", {
                 required: true,
                 pattern: {
@@ -235,11 +171,19 @@ function AddOrder() {
                 className={`${errors.measurement?.pantWidth ? "border-red-500" : ""}`}
                 {...register("measurement.pantWidth", { required: true })}
               />
-            </div> */}
+            </div>
           </div>
         </CardContent>
         <CardFooter>
-          <Button>أضف</Button>
+          <Button type="submit">أضف</Button>
+          <Button
+            type="button"
+            className="mr-2"
+            variant="outline"
+            onClick={() => redirect("/portal/customer")}
+          >
+            إلغاء
+          </Button>
         </CardFooter>
       </Card>
     </form>

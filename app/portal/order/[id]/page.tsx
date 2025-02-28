@@ -31,7 +31,7 @@ export default function ViewCustomer() {
 
       if (!result) {
         toast.error("لم يتم العثور على الزبون");
-        redirect("/protected/customer");
+        redirect("/portal/customer");
       }
 
       setCustomer(result);
@@ -57,7 +57,7 @@ export default function ViewCustomer() {
               className="flex items-center justify-between space-x-4"
             >
               <Link
-                href={`/protected/customer/${customer.id}`}
+                href={`/portal/customer/${customer.id}`}
                 className="flex items-center space-x-4 gap-2"
               >
                 <Avatar>
@@ -77,7 +77,7 @@ export default function ViewCustomer() {
               </Link>
               <Button
                 onClick={() => {
-                  redirect(`/protected/customer/${customer.id}/edit`);
+                  redirect(`/portal/customer/${customer.id}/edit`);
                 }}
                 variant="outline"
               >

@@ -1,10 +1,11 @@
 import HeaderAuth from "@/components/header-auth";
-import { Geist } from "next/font/google";
+import { Almarai } from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
 import Image from "next/image";
 import { Toaster } from "react-hot-toast";
+import Nav from "@/components/nav";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -12,13 +13,13 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "منصة إدارة واحة الحرمين",
+  description: "منصة إدارة واحة الحرمين",
 };
 
-const geistSans = Geist({
-  display: "swap",
-  subsets: ["latin"],
+const geistSans = Almarai({
+  weight: ["300", "400", "700", "800"],
+  subsets: ["arabic"],
 });
 
 export default function RootLayout({
@@ -54,13 +55,13 @@ export default function RootLayout({
                         height={60}
                       />
                     </Link>
-                    {/* <div className="flex items-center gap-2">
-                      <DeployButton />
-                    </div> */}
+                    <Nav />
                   </div>
+
                   {<HeaderAuth />}
                 </div>
               </nav>
+
               <div className="flex flex-col gap-20 max-w-5xl p-5">
                 {children}
               </div>

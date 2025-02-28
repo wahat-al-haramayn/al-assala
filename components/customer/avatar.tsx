@@ -30,7 +30,7 @@ export function CustomerAvatar({
 
   return (
     <Link
-      href={`/protected/customer/${customer.id}`}
+      href={`/portal/customer/${customer.id}`}
       className={`flex items-center space-x-4 gap-2 min-w-[12rem]`}
     >
       <Avatar>

@@ -9,7 +9,11 @@ import { redirect } from "next/navigation";
 export const addCustomerAction = async (formData: Customer) => {
     const supabase = await createClient();
 
-    const customerDto: CustomerDto = toCustomerDto(formData);
+    const customerDto: CustomerDto = toCustomerDto({
+        ...formData,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+    });
 
     const { error } = await supabase.from("customers").insert(customerDto);
 
@@ -72,13 +76,29 @@ export const getCustomersAction = async (): Promise<Customer[]> => {
     return data.map(toCustomer);
 };
 
-
 export const searchCustomersAction = async (search: string): Promise<Customer[]> => {
     const supabase = await createClient();
     const { data, error } = await supabase
         .from("customers")
         .select()
-        .textSearch("customer_search", search);
+        .textSearch("customer_search", search)
+        .order("createdAt", { ascending: false });
+
+    if (error) {
+        console.error(error.code + " " + error.message);
+        return [];
+    }
+
+    return data.map(toCustomer);
+};
+
+export const getTodayCustomersAction = async (): Promise<Customer[]> => {
+    const supabase = await createClient();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const { data, error } = await supabase.from("customers").select("*").gte("updatedAt", today.toISOString());
 
     if (error) {
         console.error(error.code + " " + error.message);

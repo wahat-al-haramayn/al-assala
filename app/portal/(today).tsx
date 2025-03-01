@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CustomerList from "@/components/customer/customer-list";
 import { Separator } from "@/components/ui/separator";
 import OrderList from "@/components/order-list";
+import OrderListMobile from "@/components/order-list-mobile";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { Order } from "@/lib/model/order.model";
@@ -34,7 +35,15 @@ export default function Today({
 
           <Separator />
           <p className="text-muted-foreground">الطلبات المنفذة اليوم</p>
-          <OrderList orders={orders} />
+          
+           <>
+                  <div className="hidden md:block">
+                    <OrderList orders={orders} />
+                  </div>
+                  <div className="block md:hidden">
+                    <OrderListMobile orders={orders} />
+                  </div>
+                </>
         </div>
       </CardContent>
     </Card>

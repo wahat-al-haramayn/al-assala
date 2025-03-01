@@ -61,16 +61,21 @@ export default function Customers() {
   };
 
   if (customers === null) {
-    return <Loading />;
+    return (
+      <div className="flex justify-center items-center w-full ">
+        <Loading />
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-4 min-w-[30rem]">
+    <div className="flex flex-col gap-4">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between gap-2">
             الزبائن
             <Button
+              size="sm"
               onClick={() => {
                 redirect("/portal/customer/add");
               }}
@@ -96,6 +101,7 @@ export default function Customers() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <Button
+              size="sm"
               variant="secondary"
               className="shrink-0"
               onClick={() => handleSearch(search)}
@@ -104,6 +110,7 @@ export default function Customers() {
             </Button>
 
             <Button
+              size="sm"
               variant="outline"
               className="shrink-0 "
               onClick={() => clearSearch()}

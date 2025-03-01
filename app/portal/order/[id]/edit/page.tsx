@@ -101,7 +101,7 @@ export default function EditOrder() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="min-w-[30rem]">
+      <Card>
         <CardHeader>
           <CardTitle>تعديل الطلب</CardTitle>
           <CardDescription>يمكنك تعديل الطلب هنا</CardDescription>
@@ -119,6 +119,7 @@ export default function EditOrder() {
 
             <Label htmlFor="deposit">المبلغ المدفوع</Label>
             <Input
+              dir="ltr"
               id="deposit"
               placeholder="المبلغ المدفوع"
               className={`${errors.deposit ? "border-red-500" : ""}`}
@@ -136,6 +137,7 @@ export default function EditOrder() {
 
             <Label htmlFor="total">المبلغ الكلي</Label>
             <Input
+              dir="ltr"
               id="total"
               placeholder="المبلغ الكلي"
               className={`${errors.total ? "border-red-500" : ""}`}

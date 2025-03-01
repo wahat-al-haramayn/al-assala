@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label, Separator } from "@radix-ui/react-dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SearchIcon, ShoppingCart } from "lucide-react";
+import { PencilIcon, SearchIcon, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loading from "@/components/loading";
 import { getCustomerByIdAction } from "@/lib/actions/customer.actions";
@@ -48,13 +48,13 @@ export default function ViewCustomer() {
   }
 
   return (
-    <div className="flex flex-col gap-4 min-w-[30rem]">
+    <div className="flex flex-col gap-4">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             الزبون
             <Link href={`/portal/order/add?customerId=${customer.id}`}>
-              <Button>
+              <Button size="sm">
                 <ShoppingCart className="w-4 h-4 ml-2" />
                 طلب
               </Button>
@@ -78,20 +78,20 @@ export default function ViewCustomer() {
                   <AvatarFallback>OM</AvatarFallback>
                 </Avatar>
                 <div>
-                  <p className="text-sm font-medium leading-none">
-                    {customer.name}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="leading-none">{customer.name}</p>
+                  <p className="text-muted-foreground">
                     {customer.phoneNumber}
                   </p>
                 </div>
               </Link>
               <Button
+                size="sm"
                 onClick={() => {
                   redirect(`/portal/customer/${customer.id}/edit`);
                 }}
                 variant="outline"
               >
+                <PencilIcon className="w-4 h-4 ml-2" />
                 تعديل
               </Button>
             </div>

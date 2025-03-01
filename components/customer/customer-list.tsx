@@ -24,6 +24,7 @@ export default function CustomerList({
     >
       <CustomerAvatar customer={customer} />
       <Button
+        size="sm"
         onClick={() => {
           redirect(`/portal/customer/${customer.id}/edit`);
         }}

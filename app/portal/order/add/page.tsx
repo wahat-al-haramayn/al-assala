@@ -84,7 +84,7 @@ function AddOrder() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Card className="min-w-[30rem]">
+      <Card>
         <CardHeader>
           <CardTitle>طلب جديد</CardTitle>
           <CardDescription>يمكنك إضافة طلب جديد هنا</CardDescription>
@@ -103,8 +103,9 @@ function AddOrder() {
             <Label htmlFor="deposit">المبلغ المدفوع</Label>
             <Input
               id="deposit"
+              dir="ltr"
               placeholder="المبلغ المدفوع"
-              className={`${errors.deposit ? "border-red-500" : ""}`}
+              className={`leading-[1.5] text-sm align-top p-3 h-12 ${errors.deposit ? "border-red-500" : ""}`}
               {...register("deposit", { required: true })}
             />
 
@@ -120,6 +121,7 @@ function AddOrder() {
             <Label htmlFor="total">المبلغ الكلي</Label>
             <Input
               id="total"
+              dir="ltr"
               placeholder="المبلغ الكلي"
               className={`${errors.total ? "border-red-500" : ""}`}
               {...register("total", { required: true })}

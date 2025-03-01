@@ -44,9 +44,7 @@ export default async function AuthButton() {
     <div className="flex items-center gap-4">
       <div>
         مرحباً,
-        <span className="font-bold text-lg mr-1">
-          {user.user_metadata.displayName}
-        </span>
+        <span className="font-bold mr-1">{user.user_metadata.displayName}</span>
       </div>
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>

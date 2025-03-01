@@ -19,7 +19,7 @@ export default function OrderList({ orders }: { orders: Order[] | null }) {
   if (orders === null || orders.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
-        <p className="text-sm text-muted-foreground">لا يوجد طلبات</p>
+        <p className=" text-muted-foreground">لا يوجد طلبات</p>
       </div>
     );
   }

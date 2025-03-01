@@ -58,9 +58,10 @@ export default function AddUser() {
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="space-y-1">
-            <Label htmlFor="name">رقم الهاتف</Label>
+            <Label htmlFor="phoneNumber">رقم الهاتف</Label>
             <Input
-              id="name"
+              dir="ltr"
+              id="phoneNumber"
               type="phone"
               className={`${errors.phoneNumber ? "border-red-500" : ""}`}
               placeholder="0606060606"
@@ -73,7 +74,7 @@ export default function AddUser() {
               })}
             />
             {errors.phoneNumber && (
-              <div className="text-red-500 text-sm mt-4">
+              <div className="text-red-500 text-xs mt-4">
                 {errors.phoneNumber.message}
               </div>
             )}
@@ -103,6 +104,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="shoulder">الكتف</Label>
               <Input
+                dir="ltr"
                 id="shoulder"
                 type="number"
                 placeholder="0"
@@ -113,6 +115,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="matter">المادة</Label>
               <Input
+                dir="ltr"
                 id="matter"
                 type="number"
                 placeholder="0"
@@ -123,6 +126,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="quarter">الربع</Label>
               <Input
+                dir="ltr"
                 id="quarter"
                 type="number"
                 placeholder="0"
@@ -133,6 +137,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="length">الطول</Label>
               <Input
+                dir="ltr"
                 id="length"
                 placeholder="0"
                 type="number"
@@ -155,6 +160,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="pantLength">الطول </Label>
               <Input
+                dir="ltr"
                 id="pantLength"
                 placeholder="0"
                 type="number"
@@ -165,6 +171,7 @@ export default function AddUser() {
             <div className="space-y-1">
               <Label htmlFor="pantWidth">العرض </Label>
               <Input
+                dir="ltr"
                 id="pantWidth"
                 placeholder="0"
                 type="number"

@@ -1,5 +1,12 @@
 import HeaderAuth from "@/components/header-auth";
-import { Almarai } from "next/font/google";
+import {
+  Alexandria,
+  Alkalami,
+  Almarai,
+  Amiri,
+  Cairo,
+  Zain,
+} from "next/font/google";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
@@ -13,13 +20,13 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "منصة إدارة واحة الحرمين",
+  title: "واحة الحرمين",
   description: "منصة إدارة واحة الحرمين",
 };
 
-const geistSans = Almarai({
-  weight: ["300", "400", "700", "800"],
+const geistSans = Cairo({
   subsets: ["arabic"],
+  weight: ["400", "700"],
 });
 
 export default function RootLayout({
@@ -42,7 +49,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen flex flex-col items-center">
-            <div className="flex-1 w-full flex flex-col gap-20 items-center">
+            <div className="flex-1 w-full flex flex-col  items-center gap-4 sm:gap-8 ">
               <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
                 <div className="w-full max-w-5xl flex justify-between items-center p-3 px-5 text-sm">
                   <div className="flex gap-5 items-center font-semibold">
@@ -55,7 +62,7 @@ export default function RootLayout({
                         height={60}
                       />
                     </Link>
-                    <Nav />
+                    {/* <Nav /> */}
                   </div>
 
                   {<HeaderAuth />}
@@ -74,7 +81,7 @@ export default function RootLayout({
                   width={40}
                   height={40}
                 />
-                <p className="text-lg">عشاق الأصالة</p>
+                <p>عشاق الأصالة</p>
                 {/* <ThemeSwitcher /> */}
               </footer>
             </div>

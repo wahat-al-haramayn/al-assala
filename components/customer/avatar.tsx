@@ -19,10 +19,8 @@ export function CustomerAvatar({
           <AvatarFallback>OM</AvatarFallback>
         </Avatar>
         <div>
-          <p className="text-sm font-medium leading-none">{customer.name}</p>
-          <p className="text-sm text-muted-foreground">
-            {customer.phoneNumber}
-          </p>
+          <p className="  font-medium leading-none">{customer.name}</p>
+          <p className="  text-muted-foreground">{customer.phoneNumber}</p>
         </div>
       </div>
     );
@@ -40,8 +38,8 @@ export function CustomerAvatar({
         <AvatarFallback>OM</AvatarFallback>
       </Avatar>
       <div>
-        <p className="text-sm font-medium leading-none">{customer.name}</p>
-        <p className="text-sm text-muted-foreground">{customer.phoneNumber}</p>
+        <p className="  font-medium leading-none">{customer.name}</p>
+        <p className="  text-muted-foreground">{customer.phoneNumber}</p>
       </div>
     </Link>
   );

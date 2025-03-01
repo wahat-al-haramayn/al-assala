@@ -83,11 +83,12 @@ export default function EditCustomer() {
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="space-y-1">
-            <Label htmlFor="name">رقم الهاتف</Label>
+            <Label htmlFor="phoneNumber">رقم الهاتف</Label>
             <Input
-              id="name"
+              dir="ltr"
+              id="phoneNumber"
               type="phone"
-              className={`${errors.phoneNumber ? "border-red-500" : ""}`}
+              className={`${errors.phoneNumber ? "border-red-500 text-xs" : ""}`}
               placeholder="0606060606"
               {...register("phoneNumber", {
                 required: true,
@@ -98,7 +99,7 @@ export default function EditCustomer() {
               })}
             />
             {errors.phoneNumber && (
-              <div className="text-red-500 text-sm mt-4">
+              <div className="text-red-500 sm mt-4">
                 {errors.phoneNumber.message}
               </div>
             )}
@@ -129,6 +130,7 @@ export default function EditCustomer() {
               <Label htmlFor="shoulder">الكتف</Label>
               <Input
                 id="shoulder"
+                dir="ltr"
                 type="number"
                 placeholder="0"
                 className={`${errors.measurement?.shoulder ? "border-red-500" : ""}`}
@@ -139,6 +141,7 @@ export default function EditCustomer() {
               <Label htmlFor="matter">المادة</Label>
               <Input
                 id="matter"
+                dir="ltr"
                 type="number"
                 placeholder="0"
                 className={`${errors.measurement?.matter ? "border-red-500" : ""}`}
@@ -149,6 +152,7 @@ export default function EditCustomer() {
               <Label htmlFor="quarter">الربع</Label>
               <Input
                 id="quarter"
+                dir="ltr"
                 type="number"
                 placeholder="0"
                 className={`${errors.measurement?.quarter ? "border-red-500" : ""}`}
@@ -159,6 +163,7 @@ export default function EditCustomer() {
               <Label htmlFor="length">الطول</Label>
               <Input
                 id="length"
+                dir="ltr"
                 placeholder="0"
                 type="number"
                 className={`${errors.measurement?.length ? "border-red-500" : ""}`}
@@ -181,6 +186,7 @@ export default function EditCustomer() {
               <Label htmlFor="pantLength">الطول </Label>
               <Input
                 id="pantLength"
+                dir="ltr"
                 placeholder="0"
                 type="number"
                 className={`${errors.measurement?.pantLength ? "border-red-500" : ""}`}
@@ -191,6 +197,7 @@ export default function EditCustomer() {
               <Label htmlFor="pantWidth">العرض </Label>
               <Input
                 id="pantWidth"
+                dir="ltr"
                 placeholder="0"
                 type="number"
                 className={`${errors.measurement?.pantWidth ? "border-red-500" : ""}`}

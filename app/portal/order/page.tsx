@@ -36,6 +36,7 @@ import {
 import { TableHead } from "@/components/ui/table";
 import { TableRow } from "@/components/ui/table";
 import OrderList from "@/components/order-list";
+import OrderListMobile from "@/components/order-list-mobile";
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[] | null>(null);
@@ -74,11 +75,15 @@ export default function Orders() {
   };
 
   if (orders === null) {
-    return <Loading />;
+    return (
+      <div className="flex justify-center items-center w-full">
+        <Loading />
+      </div>
+    );
   }
 
   return (
-    <div className="flex flex-col gap-4 min-w-[30rem]">
+    <div className="flex flex-col gap-4 ">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between gap-2">
@@ -98,6 +103,7 @@ export default function Orders() {
               onChange={(e) => setSearch(e.target.value)}
             />
             <Button
+              size="sm"
               variant="secondary"
               className="shrink-0"
               onClick={() => handleSearch(search)}
@@ -106,6 +112,7 @@ export default function Orders() {
             </Button>
 
             <Button
+              size="sm"
               variant="outline"
               className="shrink-0 "
               onClick={() => clearSearch()}
@@ -117,11 +124,18 @@ export default function Orders() {
           <div className="space-y-4">
             <div className="grid gap-6">
               {loading ? (
-                <div className="flex justify-center items-center h-full">
+                <div className="flex justify-center items-center w-full">
                   <Loading />
                 </div>
               ) : (
-                <OrderList orders={searchOrders} />
+                <>
+                  <div className="hidden md:block">
+                    <OrderList orders={searchOrders} />
+                  </div>
+                  <div className="block md:hidden">
+                    <OrderListMobile orders={searchOrders} />
+                  </div>
+                </>
               )}
             </div>
           </div>

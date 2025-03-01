@@ -21,6 +21,8 @@ import {
 } from "@/lib/actions/customer.actions";
 import { redirect } from "next/navigation";
 import CustomerList from "@/components/customer/customer-list";
+import { PaginationComponent } from "@/components/pagination";
+import { useSearchParams } from "next/navigation";
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[] | null>(null);
@@ -28,7 +30,6 @@ export default function Customers() {
     null
   );
   const [loading, setLoading] = useState(false);
-
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -70,28 +71,28 @@ export default function Customers() {
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">الزبائن</h1>
+        <Button
+          size="sm"
+          onClick={() => {
+            redirect("/portal/customer/add");
+          }}
+        >
+          <PlusIcon className="w-4 h-4 ml-2" />
+          إضافة زبون
+        </Button>
+      </div>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between gap-2">
-            الزبائن
-            <Button
-              size="sm"
-              onClick={() => {
-                redirect("/portal/customer/add");
-              }}
-            >
-              <PlusIcon className="w-4 h-4 ml-2" />
-              إضافة زبون
-            </Button>
-          </CardTitle>
           <CardDescription>
-            يمكنك إضافة زبون جديد أو تعديل زبون موجود
+            عرض جميع زبائنك أو البحث عن زبون بالتفاصيل
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex space-x-2 gap-2">
             <Input
-              placeholder="ابحث عن زبون بالرقم الموبايل أو الاسم"
+              placeholder="ابحث بالرقم الموبايل أو الاسم"
               value={search}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -100,23 +101,25 @@ export default function Customers() {
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button
-              size="sm"
-              variant="secondary"
-              className="shrink-0"
-              onClick={() => handleSearch(search)}
-            >
-              <SearchIcon className="w-4 h-4 ml-2" /> بحث
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              className="shrink-0 "
-              onClick={() => clearSearch()}
-            >
-              <XIcon className="w-4 h-4 ml-2" /> مسح
-            </Button>
+            {search.length == 0 ? (
+              <Button
+                size="sm"
+                variant="secondary"
+                className="shrink-0"
+                onClick={() => handleSearch(search)}
+              >
+                <SearchIcon className="w-4 h-4 ml-2" /> بحث
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="shrink-0 "
+                onClick={() => clearSearch()}
+              >
+                <XIcon className="w-4 h-4 ml-2" /> مسح
+              </Button>
+            )}
           </div>
           <Separator className="my-4" />
           <div className="space-y-4">

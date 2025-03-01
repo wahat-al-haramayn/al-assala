@@ -89,3 +89,15 @@ export const getTodayOrdersAction = async (): Promise<Order[]> => {
 
     return data;
 };
+
+export const getOrdersByCustomerIdAction = async (customerId: string): Promise<Order[]> => {
+    const supabase = await createClient();
+    const { data, error } = await supabase.from("orders").select("*").eq("customerId", customerId).order("orderDate", { ascending: false });
+
+    if (error) {
+        console.error(error.code + " " + error.message);
+        return [];
+    }
+
+    return data;
+};

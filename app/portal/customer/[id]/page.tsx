@@ -20,11 +20,15 @@ import toast from "react-hot-toast";
 import { Customer } from "@/lib/model/customer.model";
 import Link from "next/link";
 import { CustomerMeasurements } from "@/components/customer/measurements";
+import { Order } from "@/lib/model/order.model";
+import { getOrdersByCustomerIdAction } from "@/lib/actions/order.actions";
+import OrderList from "@/components/order-list";
+import OrderListMobile from "@/components/order-list-mobile";
 
 export default function ViewCustomer() {
-  const router = useRouter();
   const { id } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
+  const [orders, setOrders] = useState<Order[] | null>(null);
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -43,24 +47,43 @@ export default function ViewCustomer() {
     fetchCustomer();
   }, [id]);
 
-  if (customer === null) {
-    return <Loading />;
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!id) return;
+
+      const result = await getOrdersByCustomerIdAction(id as string);
+
+      if (!result) {
+        return;
+      }
+
+      setOrders(result);
+    };
+    fetchOrders();
+  }, [id]);
+
+  if (customer === null || orders === null) {
+    return (
+      <div className="flex justify-center items-center w-full">
+        <Loading />
+      </div>
+    );
   }
 
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">الزبون</h1>
+        <Link href={`/portal/order/add?customerId=${customer.id}`}>
+          <Button size="sm">
+            <ShoppingCart className="w-4 h-4 ml-2" />
+            طلب
+          </Button>
+        </Link>
+      </div>
+
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            الزبون
-            <Link href={`/portal/order/add?customerId=${customer.id}`}>
-              <Button size="sm">
-                <ShoppingCart className="w-4 h-4 ml-2" />
-                طلب
-              </Button>
-            </Link>
-          </CardTitle>
-        </CardHeader>
+        <CardHeader></CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
             <div
@@ -100,6 +123,25 @@ export default function ViewCustomer() {
           </div>
         </CardContent>
       </Card>
+
+      {orders.length > 0 && (
+        <>
+          <h1 className="text-2xl font-bold"> الطلبات</h1>
+          <Card>
+            <CardHeader>
+              <CardDescription>عرض جميع طلبات الزبون</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="hidden md:block">
+                <OrderList orders={orders} />
+              </div>
+              <div className="block md:hidden">
+                <OrderListMobile orders={orders} />
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
     </div>
   );
 }

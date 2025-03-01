@@ -50,149 +50,154 @@ export default function AddUser() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card>
-        <CardHeader>
-          <CardTitle>زبون جديد</CardTitle>
-          <CardDescription>يمكنك إضافة زبون جديد هنا</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <div className="space-y-1">
-            <Label htmlFor="phoneNumber">رقم الهاتف</Label>
-            <Input
-              dir="ltr"
-              id="phoneNumber"
-              type="phone"
-              className={`${errors.phoneNumber ? "border-red-500" : ""}`}
-              placeholder="0606060606"
-              {...register("phoneNumber", {
-                required: true,
-                pattern: {
-                  value: /^\d{10}$/,
-                  message: "رقم الهاتف يجب أن يكون 10 أرقام (مثل: 0610203040)",
-                },
-              })}
-            />
-            {errors.phoneNumber && (
-              <div className="text-red-500 text-xs mt-4">
-                {errors.phoneNumber.message}
-              </div>
-            )}
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="name">الاسم</Label>
-            <Input
-              id="name"
-              placeholder="الاسم"
-              className={`${errors.name ? "border-red-500" : ""}`}
-              {...register("name", { required: true })}
-            />
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                القياسات
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-6">
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">إضافة زبون جديد</h1>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card>
+          <CardHeader>
+            <CardDescription>يمكنك إضافة زبون جديد هنا</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2">
             <div className="space-y-1">
-              <Label htmlFor="shoulder">الكتف</Label>
+              <Label htmlFor="phoneNumber">رقم الهاتف</Label>
               <Input
                 dir="ltr"
-                id="shoulder"
-                type="number"
-                placeholder="0"
-                className={`${errors.measurement?.shoulder ? "border-red-500" : ""}`}
-                {...register("measurement.shoulder", { required: true })}
+                id="phoneNumber"
+                type="phone"
+                className={`${errors.phoneNumber ? "border-red-500" : ""}`}
+                placeholder="0606060606"
+                {...register("phoneNumber", {
+                  required: true,
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message:
+                      "رقم الهاتف يجب أن يكون 10 أرقام (مثل: 0610203040)",
+                  },
+                })}
               />
+              {errors.phoneNumber && (
+                <div className="text-red-500 text-xs mt-4">
+                  {errors.phoneNumber.message}
+                </div>
+              )}
             </div>
             <div className="space-y-1">
-              <Label htmlFor="matter">المادة</Label>
+              <Label htmlFor="name">الاسم</Label>
               <Input
-                dir="ltr"
-                id="matter"
-                type="number"
-                placeholder="0"
-                className={`${errors.measurement?.matter ? "border-red-500" : ""}`}
-                {...register("measurement.matter", { required: true })}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="quarter">الربع</Label>
-              <Input
-                dir="ltr"
-                id="quarter"
-                type="number"
-                placeholder="0"
-                className={`${errors.measurement?.quarter ? "border-red-500" : ""}`}
-                {...register("measurement.quarter", { required: true })}
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="length">الطول</Label>
-              <Input
-                dir="ltr"
-                id="length"
-                placeholder="0"
-                type="number"
-                className={`${errors.measurement?.length ? "border-red-500" : ""}`}
-                {...register("measurement.length", { required: true })}
+                id="name"
+                placeholder="الاسم"
+                className={`${errors.name ? "border-red-500" : ""}`}
+                {...register("name", { required: true })}
               />
             </div>
 
-            <div className="relative col-span-2">
+            <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
                 <span className="bg-card px-2 text-muted-foreground">
-                  البنطلون
+                  القياسات
                 </span>
               </div>
             </div>
 
-            <div className="space-y-1">
-              <Label htmlFor="pantLength">الطول </Label>
-              <Input
-                dir="ltr"
-                id="pantLength"
-                placeholder="0"
-                type="number"
-                className={`${errors.measurement?.pantLength ? "border-red-500" : ""}`}
-                {...register("measurement.pantLength", { required: true })}
-              />
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-1">
+                <Label htmlFor="shoulder">الكتف</Label>
+                <Input
+                  dir="ltr"
+                  id="shoulder"
+                  type="number"
+                  placeholder="0"
+                  className={`${errors.measurement?.shoulder ? "border-red-500" : ""}`}
+                  {...register("measurement.shoulder", { required: true })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="matter">المادة</Label>
+                <Input
+                  dir="ltr"
+                  id="matter"
+                  type="number"
+                  placeholder="0"
+                  className={`${errors.measurement?.matter ? "border-red-500" : ""}`}
+                  {...register("measurement.matter", { required: true })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="quarter">الربع</Label>
+                <Input
+                  dir="ltr"
+                  id="quarter"
+                  type="number"
+                  placeholder="0"
+                  className={`${errors.measurement?.quarter ? "border-red-500" : ""}`}
+                  {...register("measurement.quarter", { required: true })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="length">الطول</Label>
+                <Input
+                  dir="ltr"
+                  id="length"
+                  placeholder="0"
+                  type="number"
+                  className={`${errors.measurement?.length ? "border-red-500" : ""}`}
+                  {...register("measurement.length", { required: true })}
+                />
+              </div>
+
+              <div className="relative col-span-2">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">
+                    البنطلون
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="pantLength">الطول </Label>
+                <Input
+                  dir="ltr"
+                  id="pantLength"
+                  placeholder="0"
+                  type="number"
+                  className={`${errors.measurement?.pantLength ? "border-red-500" : ""}`}
+                  {...register("measurement.pantLength", { required: true })}
+                />
+              </div>
+              <div className="space-y-1">
+                <Label htmlFor="pantWidth">العرض </Label>
+                <Input
+                  dir="ltr"
+                  id="pantWidth"
+                  placeholder="0"
+                  type="number"
+                  className={`${errors.measurement?.pantWidth ? "border-red-500" : ""}`}
+                  {...register("measurement.pantWidth", { required: true })}
+                />
+              </div>
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="pantWidth">العرض </Label>
-              <Input
-                dir="ltr"
-                id="pantWidth"
-                placeholder="0"
-                type="number"
-                className={`${errors.measurement?.pantWidth ? "border-red-500" : ""}`}
-                {...register("measurement.pantWidth", { required: true })}
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit">أضف</Button>
-          <Button
-            type="button"
-            className="mr-2"
-            variant="outline"
-            onClick={() => redirect("/portal/customer")}
-          >
-            إلغاء
-          </Button>
-        </CardFooter>
-      </Card>
-    </form>
+          </CardContent>
+          <CardFooter>
+            <Button type="submit">أضف</Button>
+            {/* <Button
+              type="button"
+              className="mr-2"
+              variant="outline"
+              onClick={() => redirect("/portal/customer")}
+            >
+              إلغاء
+            </Button> */}
+          </CardFooter>
+        </Card>
+      </form>
+    </div>
   );
 }

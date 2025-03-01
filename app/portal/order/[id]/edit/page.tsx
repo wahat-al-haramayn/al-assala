@@ -96,67 +96,75 @@ export default function EditOrder() {
   };
 
   if (!order || !customer) {
-    return <Loading className="w-10 h-10" />;
+    return (
+      <div className="flex justify-center items-center w-full">
+        <Loading />
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Card>
-        <CardHeader>
-          <CardTitle>تعديل الطلب</CardTitle>
-          <CardDescription>يمكنك تعديل الطلب هنا</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col space-x-2 gap-2">
-            {customer && (
-              <div className="flex flex-col gap-4">
-                <CustomerAvatar customer={customer} disabled={true} />
-                <CustomerMeasurements customer={customer} />
-              </div>
-            )}
+    <div className="flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">تعديل الطلب</h1>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card>
+          <CardHeader>
+            <CardDescription>يمكنك تعديل الطلب هنا</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col space-x-2 gap-2">
+              {customer && (
+                <div className="flex flex-col gap-4">
+                  <CustomerAvatar customer={customer} disabled={true} />
+                  <CustomerMeasurements customer={customer} />
+                </div>
+              )}
 
-            <Separator className="my-4" />
+              <Separator className="my-4" />
 
-            <Label htmlFor="deposit">المبلغ المدفوع</Label>
-            <Input
-              dir="ltr"
-              id="deposit"
-              placeholder="المبلغ المدفوع"
-              className={`${errors.deposit ? "border-red-500" : ""}`}
-              {...register("deposit", { required: true })}
-            />
+              <Label htmlFor="deposit">المبلغ المدفوع</Label>
+              <Input
+                dir="ltr"
+                id="deposit"
+                placeholder="المبلغ المدفوع"
+                className={`${errors.deposit ? "border-red-500" : ""}`}
+                {...register("deposit", { required: true })}
+              />
 
-            <Label htmlFor="notes">تفاصيل الطلب</Label>
-            <Textarea
-              rows={6}
-              id="notes"
-              placeholder="تفاصيل"
-              className={`${errors.notes ? "border-red-500" : ""}`}
-              {...register("notes", { required: true })}
-            />
+              <Label htmlFor="notes">تفاصيل الطلب</Label>
+              <Textarea
+                rows={6}
+                id="notes"
+                placeholder="تفاصيل"
+                className={`${errors.notes ? "border-red-500" : ""}`}
+                {...register("notes", { required: true })}
+              />
 
-            <Label htmlFor="total">المبلغ الكلي</Label>
-            <Input
-              dir="ltr"
-              id="total"
-              placeholder="المبلغ الكلي"
-              className={`${errors.total ? "border-red-500" : ""}`}
-              {...register("total", { required: true })}
-            />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit">تعديل</Button>
-          <Button
-            type="button"
-            className="mr-2"
-            variant="outline"
-            onClick={() => redirect(`/portal/customer/${customer?.id}`)}
-          >
-            إلغاء
-          </Button>
-        </CardFooter>
-      </Card>
-    </form>
+              <Label htmlFor="total">المبلغ الكلي</Label>
+              <Input
+                dir="ltr"
+                id="total"
+                placeholder="المبلغ الكلي"
+                className={`${errors.total ? "border-red-500" : ""}`}
+                {...register("total", { required: true })}
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button type="submit">تعديل</Button>
+            {/* <Button
+              type="button"
+              className="mr-2"
+              variant="outline"
+              onClick={() => redirect(`/portal/customer/${customer?.id}`)}
+            >
+              إلغاء
+            </Button> */}
+          </CardFooter>
+        </Card>
+      </form>
+    </div>
   );
 }

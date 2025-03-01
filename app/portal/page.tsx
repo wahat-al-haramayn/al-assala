@@ -5,10 +5,11 @@ import { getTodayOrdersAction } from "@/lib/actions/order.actions";
 import Today from "./(today)";
 
 export default async function PortalPage() {
-  const customers = await getTodayCustomersAction();
-  const orders = await getTodayOrdersAction();
-
-  const supabase = await createClient();
+  const [customers, orders, supabase] = await Promise.all([
+    getTodayCustomersAction(),
+    getTodayOrdersAction(),
+    createClient(),
+  ]);
 
   const {
     data: { user },

@@ -82,7 +82,7 @@ export const searchCustomersAction = async (search: string): Promise<Customer[]>
         .from("customers")
         .select()
         .textSearch("customer_search", search)
-        .order("createdAt", { ascending: false });
+        .order("createdAt", { ascending: false }).limit(4).range(4, 8);
 
     if (error) {
         console.error(error.code + " " + error.message);

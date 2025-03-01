@@ -18,7 +18,12 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
       </p>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Label htmlFor="email">البريد الإلكتروني</Label>
-        <Input name="email" placeholder="البريد الإلكتروني" required />
+        <Input
+          dir="ltr"
+          name="email"
+          placeholder="البريد الإلكتروني"
+          required
+        />
         <div className="flex justify-between items-center">
           <Label htmlFor="password">كلمة المرور</Label>
           <Link
@@ -29,6 +34,7 @@ export default async function Login(props: { searchParams: Promise<Message> }) {
           </Link>
         </div>
         <Input
+          dir="ltr"
           type="password"
           name="password"
           placeholder="كلمة المرور"

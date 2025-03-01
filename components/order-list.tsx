@@ -30,7 +30,7 @@ export default function OrderList({ orders }: { orders: Order[] | null }) {
         <TableRow>
           <TableHead className="text-right">رقم الزبون</TableHead>
           <TableHead className="text-right">المبلغ المتبقي</TableHead>
-          <TableHead className="text-right">الملاحظات</TableHead>
+          <TableHead className="text-right">التفاصيل</TableHead>
           <TableHead className="text-right"> التاريخ </TableHead>
           <TableHead className="text-right"> </TableHead>
         </TableRow>

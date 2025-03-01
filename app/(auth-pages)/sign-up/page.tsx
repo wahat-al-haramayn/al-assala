@@ -32,9 +32,15 @@ export default async function Signup(props: {
           <Label htmlFor="displayName">الاسم</Label>
           <Input name="displayName" placeholder="الاسم" required />
           <Label htmlFor="email">البريد الإلكتروني</Label>
-          <Input name="email" placeholder="البريد الإلكتروني" required />
+          <Input
+            dir="ltr"
+            name="email"
+            placeholder="البريد الإلكتروني"
+            required
+          />
           <Label htmlFor="password">كلمة المرور</Label>
           <Input
+            dir="ltr"
             type="password"
             name="password"
             placeholder="كلمة المرور"

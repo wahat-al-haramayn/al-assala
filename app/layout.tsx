@@ -62,7 +62,6 @@ export default function RootLayout({
                         height={60}
                       />
                     </Link>
-                    {/* <Nav /> */}
                   </div>
 
                   {<HeaderAuth />}

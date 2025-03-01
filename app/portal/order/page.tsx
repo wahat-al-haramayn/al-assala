@@ -6,35 +6,19 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { PencilIcon, PlusIcon, SearchIcon, XIcon } from "lucide-react";
+import { SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Customer } from "@/lib/model/customer.model";
 import Loading from "@/components/loading";
-import {
-  getCustomersAction,
-  searchCustomersAction,
-} from "@/lib/actions/customer.actions";
-import { redirect } from "next/navigation";
-import Link from "next/link";
-import { CustomerAvatar } from "@/components/customer/avatar";
+
 import { Order } from "@/lib/model/order.model";
 import {
   getOrdersAction,
   searchOrdersAction,
 } from "@/lib/actions/order.actions";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-} from "@/components/ui/table";
-import { TableHead } from "@/components/ui/table";
-import { TableRow } from "@/components/ui/table";
+
 import OrderList from "@/components/order-list";
 import OrderListMobile from "@/components/order-list-mobile";
 
@@ -84,16 +68,18 @@ export default function Orders() {
 
   return (
     <div className="flex flex-col gap-4 ">
+      <h1 className="text-2xl font-bold">الطلبات</h1>
+
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between gap-2">
-            الطلبات
-          </CardTitle>
+          <CardDescription>
+            عرض جميع طلباتك أو البحث عن طلب بالتفاصيل
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex space-x-2 gap-2">
+          <div className="flex space-x-2 gap-2 ">
             <Input
-              placeholder="ابحث عن طلب بالملاحظات"
+              placeholder="ابحث عن طلب بالتفاصيل"
               value={search}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -102,23 +88,25 @@ export default function Orders() {
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            <Button
-              size="sm"
-              variant="secondary"
-              className="shrink-0"
-              onClick={() => handleSearch(search)}
-            >
-              <SearchIcon className="w-4 h-4 ml-2" /> بحث
-            </Button>
-
-            <Button
-              size="sm"
-              variant="outline"
-              className="shrink-0 "
-              onClick={() => clearSearch()}
-            >
-              <XIcon className="w-4 h-4 ml-2" /> مسح
-            </Button>
+            {search.length == 0 ? (
+              <Button
+                size="sm"
+                variant="secondary"
+                className="shrink-0"
+                onClick={() => handleSearch(search)}
+              >
+                <SearchIcon className="w-4 h-4 ml-2" /> بحث
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="ghost"
+                className="shrink-0 "
+                onClick={() => clearSearch()}
+              >
+                <XIcon className="w-4 h-4 ml-2" /> مسح
+              </Button>
+            )}
           </div>
           <Separator className="my-4" />
           <div className="space-y-4">

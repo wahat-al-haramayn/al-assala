@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
-
+import { LogOutIcon, LogInIcon, UserPlusIcon } from "lucide-react";
 export default async function AuthButton() {
   const supabase = await createClient();
 
@@ -24,7 +24,10 @@ export default async function AuthButton() {
               disabled
               className="opacity-75 cursor-none pointer-events-none"
             >
-              <Link href="/sign-in">تسجيل الدخول</Link>
+              <Link href="/sign-in">
+                <LogInIcon className="w-4 h-4 ml-2" />
+                تسجيل الدخول
+              </Link>
             </Button>
             <Button
               asChild
@@ -33,7 +36,10 @@ export default async function AuthButton() {
               disabled
               className="opacity-75 cursor-none pointer-events-none"
             >
-              <Link href="/sign-up">اشترك</Link>
+              <Link href="/sign-up">
+                <UserPlusIcon className="w-4 h-4 ml-2" />
+                اشترك
+              </Link>
             </Button>
           </div>
         </div>
@@ -48,6 +54,7 @@ export default async function AuthButton() {
       </div>
       <form action={signOutAction}>
         <Button type="submit" variant={"outline"}>
+          <LogOutIcon className="w-4 h-4 ml-2" />
           تسجيل الخروج
         </Button>
       </form>
@@ -55,10 +62,16 @@ export default async function AuthButton() {
   ) : (
     <div className="flex gap-2">
       <Button asChild size="sm" variant={"outline"}>
-        <Link href="/sign-in">تسجيل الدخول</Link>
+        <Link href="/sign-in">
+          <LogInIcon className="w-4 h-4 ml-2" />
+          تسجيل الدخول
+        </Link>
       </Button>
       <Button asChild size="sm" variant={"default"}>
-        <Link href="/sign-up">اشترك</Link>
+        <Link href="/sign-up">
+          <UserPlusIcon className="w-4 h-4 ml-2" />
+          اشترك
+        </Link>
       </Button>
     </div>
   );

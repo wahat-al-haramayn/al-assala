@@ -68,9 +68,7 @@ export default function RootLayout({
                 </div>
               </nav>
 
-              <div className="flex flex-col gap-20 max-w-5xl p-5">
-                {children}
-              </div>
+              {children}
 
               <footer className="w-full flex-col flex items-center justify-center border-t mx-auto text-center text-xs gap-2 py-16">
                 <Image

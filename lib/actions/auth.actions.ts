@@ -27,6 +27,7 @@ export const signUpAction = async (formData: FormData) => {
     options: {
       data: {
         displayName,
+        isAdmin: true,
       },
       emailRedirectTo: `${origin}/auth/callback`,
     },
@@ -34,7 +35,7 @@ export const signUpAction = async (formData: FormData) => {
 
   if (error) {
     console.error(error.code + " " + error.message);
-    return encodedRedirect("error", "/sign-up", error.message);
+    return encodedRedirect("error", "/sign-up", "حدث خطأ أثناء التسجيل");
   } else {
     return encodedRedirect(
       "success",
@@ -55,7 +56,8 @@ export const signInAction = async (formData: FormData) => {
   });
 
   if (error) {
-    return encodedRedirect("error", "/sign-in", error.message);
+    console.error(error.message);
+    return encodedRedirect("error", "/sign-in", "البريد الإلكتروني أو كلمة المرور غير متطابقة");
   }
 
   return redirect("/portal");
@@ -68,7 +70,7 @@ export const forgotPasswordAction = async (formData: FormData) => {
   const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
-    return encodedRedirect("error", "/forgot-password", "Email is required");
+    return encodedRedirect("error", "/forgot-password", "البريد الإلكتروني مطلوب");
   }
 
   const { error } = await supabase.auth.resetPasswordForEmail(email, {

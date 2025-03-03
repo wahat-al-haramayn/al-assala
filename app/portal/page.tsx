@@ -19,5 +19,9 @@ export default async function PortalPage() {
     return redirect("/sign-in");
   }
 
+  if (!user.user_metadata.isAdmin) {
+    return redirect("/");
+  }
+
   return <Today customers={customers} orders={orders} />;
 }

@@ -1,18 +1,17 @@
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
+import Home from "./(home)";
 
-export default async function Home() {
+export default async function HomePage() {
   const supabase = await createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    console.log("user not found");
-    return redirect("/sign-in");
+  if (user?.user_metadata.isAdmin) {
+    return redirect("/portal");
   }
 
-  return redirect("/portal");
+  return <Home />;
 }

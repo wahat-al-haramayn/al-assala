@@ -26,6 +26,7 @@ export default function Orders() {
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [searchOrders, setSearchOrders] = useState<Order[] | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showClearSearchButton, setShowClearSearchButton] = useState(false);
 
   const [search, setSearch] = useState("");
 
@@ -36,6 +37,7 @@ export default function Orders() {
       setOrders(orders);
       setSearchOrders(orders);
       setLoading(false);
+      setShowClearSearchButton(false);
     };
     fetchOrders();
   }, []);
@@ -47,6 +49,7 @@ export default function Orders() {
     }
 
     setLoading(true);
+    setShowClearSearchButton(true);
     const result = await searchOrdersAction(search);
     setSearchOrders(result);
     setLoading(false);
@@ -54,6 +57,7 @@ export default function Orders() {
 
   const clearSearch = () => {
     setSearch("");
+    setShowClearSearchButton(false);
     setSearchOrders(orders);
     setLoading(false);
   };
@@ -67,7 +71,7 @@ export default function Orders() {
   }
 
   return (
-    <div className="flex flex-col gap-4 ">
+    <div className="flex flex-col gap-4  w-full">
       <h1 className="text-2xl font-bold">الطلبات</h1>
 
       <Card>
@@ -88,16 +92,7 @@ export default function Orders() {
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            {search.length == 0 ? (
-              <Button
-                size="sm"
-                variant="secondary"
-                className="shrink-0"
-                onClick={() => handleSearch(search)}
-              >
-                <SearchIcon className="w-4 h-4 ml-2" /> بحث
-              </Button>
-            ) : (
+            {showClearSearchButton ? (
               <Button
                 size="sm"
                 variant="ghost"
@@ -105,6 +100,15 @@ export default function Orders() {
                 onClick={() => clearSearch()}
               >
                 <XIcon className="w-4 h-4 ml-2" /> مسح
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="secondary"
+                className="shrink-0"
+                onClick={() => handleSearch(search)}
+              >
+                <SearchIcon className="w-4 h-4 ml-2" /> بحث
               </Button>
             )}
           </div>

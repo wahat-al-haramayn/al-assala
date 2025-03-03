@@ -30,6 +30,7 @@ export default function Customers() {
     null
   );
   const [loading, setLoading] = useState(false);
+  const [showClearSearchButton, setShowClearSearchButton] = useState(false);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export default function Customers() {
       setCustomers(customers);
       setSearchCustomers(customers);
       setLoading(false);
+      setShowClearSearchButton(false);
     };
     fetchCustomers();
   }, []);
@@ -49,6 +51,7 @@ export default function Customers() {
       return;
     }
 
+    setShowClearSearchButton(true);
     setLoading(true);
     const result = await searchCustomersAction(search);
     setSearchCustomers(result);
@@ -57,6 +60,7 @@ export default function Customers() {
 
   const clearSearch = () => {
     setSearch("");
+    setShowClearSearchButton(false);
     setSearchCustomers(customers);
     setLoading(false);
   };
@@ -101,16 +105,7 @@ export default function Customers() {
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
-            {search.length == 0 ? (
-              <Button
-                size="sm"
-                variant="secondary"
-                className="shrink-0"
-                onClick={() => handleSearch(search)}
-              >
-                <SearchIcon className="w-4 h-4 ml-2" /> بحث
-              </Button>
-            ) : (
+            {showClearSearchButton ? (
               <Button
                 size="sm"
                 variant="ghost"
@@ -118,6 +113,15 @@ export default function Customers() {
                 onClick={() => clearSearch()}
               >
                 <XIcon className="w-4 h-4 ml-2" /> مسح
+              </Button>
+            ) : (
+              <Button
+                size="sm"
+                variant="secondary"
+                className="shrink-0"
+                onClick={() => handleSearch(search)}
+              >
+                <SearchIcon className="w-4 h-4 ml-2" /> بحث
               </Button>
             )}
           </div>

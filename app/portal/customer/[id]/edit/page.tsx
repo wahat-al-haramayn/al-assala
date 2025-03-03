@@ -23,17 +23,19 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
 
 export default function EditCustomer() {
   const { id } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchCustomer = async () => {
       if (!id) return;
 
-      setLoading(true);
+      setFetching(true);
       const result = await getCustomerByIdAction(id as string);
 
       if (!result) {
@@ -43,7 +45,7 @@ export default function EditCustomer() {
 
       setCustomer(result);
       reset(result);
-      setLoading(false);
+      setFetching(false);
     };
 
     fetchCustomer();
@@ -57,21 +59,22 @@ export default function EditCustomer() {
   } = useForm<Customer>();
 
   const onSubmit = async (data: Customer) => {
-    setLoading(true);
+    setIsLoading(true);
     const customer = { ...data };
     const result = await updateCustomerAction(id as string, customer);
 
     if (!result) {
       toast.error("حدث خطأ أثناء تعديل الزبون");
-      setLoading(false);
+      setIsLoading(false);
       return;
     }
 
     toast.success("تم تعديل الزبون بنجاح");
+    setIsLoading(false);
     redirect("/portal/customer");
   };
 
-  if (!customer || loading) {
+  if (!customer || fetching) {
     return (
       <div className="flex justify-center items-center w-full">
         <Loading />
@@ -216,7 +219,10 @@ export default function EditCustomer() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">تعديل</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+              تعديل
+            </Button>
             {/* <Button
               type="button"
               className="mr-2"

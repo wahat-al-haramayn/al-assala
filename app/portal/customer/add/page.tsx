@@ -16,11 +16,15 @@ import {
   getCustomerByPhoneNumberAction,
 } from "@/lib/actions/customer.actions";
 import { Customer } from "@/lib/model/customer.model";
+import { Loader2 } from "lucide-react";
 import { redirect } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { useState } from "react";
 
 export default function AddUser() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -28,12 +32,14 @@ export default function AddUser() {
   } = useForm<Customer>();
 
   const onSubmit = async (data: Customer) => {
+    setIsLoading(true);
     const customerQuery = await getCustomerByPhoneNumberAction(
       data.phoneNumber
     );
 
     if (customerQuery) {
       toast.error("الرقم المدخل مستخدم من قبل زبون آخر");
+      setIsLoading(false);
       return;
     }
 
@@ -42,10 +48,12 @@ export default function AddUser() {
 
     if (!result) {
       toast.error("حدث خطأ أثناء إضافة الزبون");
+      setIsLoading(false);
       return;
     }
 
     toast.success("تم إضافة الزبون بنجاح");
+    setIsLoading(false);
     redirect("/portal/customer");
   };
 
@@ -186,7 +194,10 @@ export default function AddUser() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">أضف</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+              أضف
+            </Button>
             {/* <Button
               type="button"
               className="mr-2"

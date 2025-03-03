@@ -16,11 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  addCustomerAction,
-  getCustomerByIdAction,
-  updateCustomerAction,
-} from "@/lib/actions/customer.actions";
+import { getCustomerByIdAction } from "@/lib/actions/customer.actions";
 import {
   getOrderByIdAction,
   updateOrderAction,
@@ -31,11 +27,12 @@ import { redirect, useParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-
+import { Loader2 } from "lucide-react";
 export default function EditOrder() {
   const { id } = useParams();
   const [order, setOrder] = useState<Order | null>(null);
   const [customer, setCustomer] = useState<Customer | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -82,16 +79,18 @@ export default function EditOrder() {
   } = useForm<Order>();
 
   const onSubmit = async (data: Order) => {
-    console.log(data);
+    setIsLoading(true);
     const order = { ...data };
     const result = await updateOrderAction(id as string, order);
 
     if (!result) {
       toast.error("حدث خطأ أثناء تعديل الطلب");
+      setIsLoading(false);
       return;
     }
 
     toast.success("تم تعديل الطلب بنجاح");
+    setIsLoading(false);
     redirect("/portal/order");
   };
 
@@ -128,6 +127,7 @@ export default function EditOrder() {
               <Input
                 dir="ltr"
                 id="deposit"
+                type="number"
                 placeholder="المبلغ المدفوع"
                 className={`${errors.deposit ? "border-red-500" : ""}`}
                 {...register("deposit", { required: true })}
@@ -147,13 +147,17 @@ export default function EditOrder() {
                 dir="ltr"
                 id="total"
                 placeholder="المبلغ الكلي"
+                type="number"
                 className={`${errors.total ? "border-red-500" : ""}`}
                 {...register("total", { required: true })}
               />
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit">تعديل</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+              تعديل
+            </Button>
             {/* <Button
               type="button"
               className="mr-2"

@@ -15,7 +15,7 @@ export default function CustomerList({
   const searchParams = useSearchParams();
 
   const currentPage = Number(searchParams.get("customerPage")) || 1;
-  const pageSize = 5;
+  const pageSize = 10;
 
   if (!customers || customers.length === 0)
     return (

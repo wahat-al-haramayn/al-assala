@@ -4,9 +4,10 @@ import { Order } from "@/lib/model/order.model";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
-import { PhoneIcon, UserIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { PencilIcon, PhoneIcon, UserIcon } from "lucide-react";
+import { redirect, useSearchParams } from "next/navigation";
 import { PaginationComponent } from "./pagination";
+import { Button } from "./ui/button";
 
 export default function OrderListMobile({
   orders,
@@ -15,11 +16,11 @@ export default function OrderListMobile({
 }) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("orderPage")) || 1;
-  const pageSize = 2;
+  const pageSize = 5;
 
   if (orders === null || orders.length === 0) {
     return (
-      <div className="flex justify-center items-center h-full">
+      <div className="flex justify-center items-center h-full w-full">
         <p className=" text-muted-foreground">لا يوجد طلبات</p>
       </div>
     );
@@ -32,10 +33,19 @@ export default function OrderListMobile({
         ?.slice((currentPage - 1) * pageSize, currentPage * pageSize)
         .map((order, index) => (
           <div key={"order-" + order.id} className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-2 col-span-2">
+            <div className="flex gap-2 col-span-2 items-center justify-between">
               <Label className="text-right text-muted-foreground">
                 طلب رقم {order.id}
               </Label>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  redirect(`/portal/order/${order.id}/edit`);
+                }}
+              >
+                <PencilIcon className="w-4 h-4 ml-2" />
+                تعديل
+              </Button>
             </div>
 
             <div className="flex flex-col gap-2">

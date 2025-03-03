@@ -5,6 +5,7 @@ import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/server";
 import { LogOutIcon, LogInIcon, UserPlusIcon } from "lucide-react";
+
 export default async function AuthButton() {
   const supabase = await createClient();
 

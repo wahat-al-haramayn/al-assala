@@ -29,6 +29,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Usage: App router
+import { Loader2 } from "lucide-react";
 
 export default function AddOrderSuspense() {
   return (
@@ -42,6 +43,8 @@ function AddOrder() {
   const searchParams = useSearchParams();
   const customerId = searchParams.get("customerId");
   const [customer, setCustomer] = useState<Customer | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -68,6 +71,7 @@ function AddOrder() {
   }, [customerId]);
 
   const onSubmit = async (data: Order) => {
+    setIsLoading(true);
     const order = {
       ...data,
       customerId: customerId as string,
@@ -79,6 +83,7 @@ function AddOrder() {
       toast.error("حدث خطأ أثناء إضافة الطلب");
     }
     toast.success("تم إضافة الطلب بنجاح");
+    setIsLoading(false);
     redirect(`/portal/customer/${customerId}`);
   };
 
@@ -103,6 +108,7 @@ function AddOrder() {
             <Label htmlFor="deposit">المبلغ المدفوع</Label>
             <Input
               id="deposit"
+              type="number"
               dir="ltr"
               placeholder="المبلغ المدفوع"
               className={`leading-[1.5] text-sm align-top p-3 h-12 ${errors.deposit ? "border-red-500" : ""}`}
@@ -121,6 +127,7 @@ function AddOrder() {
             <Label htmlFor="total">المبلغ الكلي</Label>
             <Input
               id="total"
+              type="number"
               dir="ltr"
               placeholder="المبلغ الكلي"
               className={`${errors.total ? "border-red-500" : ""}`}
@@ -129,15 +136,18 @@ function AddOrder() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit">أضف</Button>
-          <Button
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+            أضف
+          </Button>
+          {/* <Button
             type="button"
             className="mr-2"
             variant="outline"
             onClick={() => redirect(`/portal/customer/${customerId}`)}
           >
             إلغاء
-          </Button>
+          </Button> */}
         </CardFooter>
       </Card>
     </form>

@@ -18,11 +18,13 @@ import Loading from "@/components/loading";
 import {
   getCustomersAction,
   searchCustomersAction,
+  deleteCustomerAction,
 } from "@/lib/actions/customer.actions";
 import { redirect } from "next/navigation";
 import CustomerList from "@/components/customer/customer-list";
 import { PaginationComponent } from "@/components/pagination";
 import { useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[] | null>(null);
@@ -63,6 +65,19 @@ export default function Customers() {
     setShowClearSearchButton(false);
     setSearchCustomers(customers);
     setLoading(false);
+  };
+
+  const handleOnDelete = async (id: string) => {
+    const result = await deleteCustomerAction(id);
+    if (result) {
+      toast.success("تم حذف الزبون بنجاح");
+      setSearchCustomers(
+        searchCustomers?.filter((customer) => customer.id !== id) || null
+      );
+      setCustomers(customers?.filter((customer) => customer.id !== id) || null);
+    } else {
+      toast.error("حدث خطأ ما أثناء حذف الزبون");
+    }
   };
 
   if (customers === null) {
@@ -133,7 +148,10 @@ export default function Customers() {
                   <Loading />
                 </div>
               ) : (
-                <CustomerList customers={searchCustomers} />
+                <CustomerList
+                  customers={searchCustomers}
+                  onDelete={handleOnDelete}
+                />
               )}
             </div>
           </div>

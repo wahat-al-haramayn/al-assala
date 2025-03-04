@@ -9,6 +9,9 @@ import { PlusIcon } from "lucide-react";
 import { Order } from "@/lib/model/order.model";
 import { Customer } from "@/lib/model/customer.model";
 import OrderListMobile from "@/components/order-list-mobile";
+import { deleteCustomerAction } from "@/lib/actions/customer.actions";
+import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 export default function Today({
   customers,
@@ -17,6 +20,26 @@ export default function Today({
   customers: Customer[];
   orders: Order[];
 }) {
+  const [loadedCustomers, setLoadedCustomers] = useState<Customer[]>([]);
+  const [loadedOrders, setLoadedOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    setLoadedCustomers(customers);
+    setLoadedOrders(orders);
+  }, [customers, orders]);
+
+  const handleOnDelete = async (id: string) => {
+    const result = await deleteCustomerAction(id);
+    if (result) {
+      toast.success("تم حذف الزبون بنجاح");
+      setLoadedCustomers(
+        loadedCustomers.filter((customer) => customer.id !== id)
+      );
+    } else {
+      toast.error("حدث خطأ ما أثناء حذف الزبون");
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">أعمال اليوم</h1>
@@ -37,7 +60,10 @@ export default function Today({
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <CustomerList customers={customers} />
+            <CustomerList
+              customers={loadedCustomers}
+              onDelete={handleOnDelete}
+            />
           </div>
         </CardContent>
       </Card>
@@ -51,10 +77,10 @@ export default function Today({
         </CardHeader>
         <CardContent>
           <div className="hidden md:block">
-            <OrderList orders={orders} />
+            <OrderList orders={loadedOrders} />
           </div>
           <div className="block md:hidden">
-            <OrderListMobile orders={orders} />
+            <OrderListMobile orders={loadedOrders} />
           </div>
         </CardContent>
       </Card>

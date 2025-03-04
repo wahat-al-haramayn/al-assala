@@ -107,3 +107,15 @@ export const getTodayCustomersAction = async (): Promise<Customer[]> => {
 
     return data.map(toCustomer);
 };
+
+export const deleteCustomerAction = async (id: string) => {
+    const supabase = await createClient();
+    const { error } = await supabase.from("customers").delete().eq("id", id);
+
+    if (error) {
+        console.error(error.code + " " + error.message);
+        return false;
+    }
+
+    return true;
+};

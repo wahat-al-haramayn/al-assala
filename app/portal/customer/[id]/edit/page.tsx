@@ -23,7 +23,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { Loader2 } from "lucide-react";
+import { Loader2, PencilIcon, TrashIcon, UserIcon } from "lucide-react";
 
 export default function EditCustomer() {
   const { id } = useParams();
@@ -90,7 +90,17 @@ export default function EditCustomer() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
-            <CardDescription>يمكنك تعديل الزبون هنا</CardDescription>
+            <CardDescription>
+              <div className="flex items-center justify-between gap-2">
+                {/* <span className="text-muted-foreground"> */}
+                يمكنك تعديل الزبون هنا
+                {/* </span>
+                <Button variant="destructive" type="button" size="sm">
+                  <TrashIcon className="w-4 h-4" />
+                  حذف
+                </Button> */}
+              </div>
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="space-y-1">
@@ -220,7 +230,11 @@ export default function EditCustomer() {
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading}>
-              {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 ml-2 animate-spin" />
+              ) : (
+                <PencilIcon className="w-4 h-4 ml-2" />
+              )}
               تعديل
             </Button>
             {/* <Button

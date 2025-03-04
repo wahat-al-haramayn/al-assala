@@ -1,6 +1,6 @@
 "use client";
 
-import { PencilIcon } from "lucide-react";
+import { PencilIcon, UserIcon } from "lucide-react";
 
 import { Order } from "@/lib/model/order.model";
 import {
@@ -14,6 +14,7 @@ import {
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { redirect } from "next/navigation";
+import { Label } from "./ui/label";
 
 export default function OrderList({ orders }: { orders: Order[] | null }) {
   if (orders === null || orders.length === 0) {
@@ -40,7 +41,10 @@ export default function OrderList({ orders }: { orders: Order[] | null }) {
           <TableRow key={"order-" + order.id}>
             <TableCell>
               <Link href={`/portal/customer/${order.customerId}`}>
-                {order.customerPhone}
+                <Label className="flex items-center text-blue-700">
+                  {order.customerPhone}
+                  <UserIcon className="w-4 h-4 mr-1" />
+                </Label>
               </Link>
             </TableCell>
             <TableCell>{order.total - order.deposit}DH</TableCell>

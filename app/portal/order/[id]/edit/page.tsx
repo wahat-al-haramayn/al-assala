@@ -27,7 +27,7 @@ import { redirect, useParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Loader2, PencilIcon } from "lucide-react";
 export default function EditOrder() {
   const { id } = useParams();
   const [order, setOrder] = useState<Order | null>(null);
@@ -107,6 +107,21 @@ export default function EditOrder() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">تعديل الطلب</h1>
       </div>
+      <Card>
+        <CardHeader>
+          <CardDescription>هذا الطلب ينتمي إلى الزبون</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <h1 className="text-lg font-bold"> </h1>
+
+          {customer && (
+            <div className="flex flex-col gap-4">
+              <CustomerAvatar customer={customer} disabled={true} />
+              <CustomerMeasurements customer={customer} />
+            </div>
+          )}
+        </CardContent>
+      </Card>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           <CardHeader>
@@ -114,15 +129,6 @@ export default function EditOrder() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-x-2 gap-2">
-              {customer && (
-                <div className="flex flex-col gap-4">
-                  <CustomerAvatar customer={customer} disabled={true} />
-                  <CustomerMeasurements customer={customer} />
-                </div>
-              )}
-
-              <Separator className="my-4" />
-
               <Label htmlFor="deposit">المبلغ المدفوع</Label>
               <Input
                 dir="ltr"
@@ -151,11 +157,25 @@ export default function EditOrder() {
                 className={`${errors.total ? "border-red-500" : ""}`}
                 {...register("total", { required: true })}
               />
+
+              {/* <Separator className="my-4" />
+              <h1 className="text-lg font-bold"> الزبون</h1>
+
+              {customer && (
+                <div className="flex flex-col gap-4">
+                  <CustomerAvatar customer={customer} disabled={true} />
+                  <CustomerMeasurements customer={customer} />
+                </div>
+              )} */}
             </div>
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading}>
-              {isLoading && <Loader2 className="w-4 h-4 ml-2 animate-spin" />}
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 ml-2 animate-spin" />
+              ) : (
+                <PencilIcon className="w-4 h-4 ml-2" />
+              )}
               تعديل
             </Button>
             {/* <Button

@@ -1,6 +1,6 @@
-import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
-import Home from "./(home)";
+import { createClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
+import Home from './(home)';
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -10,7 +10,7 @@ export default async function HomePage() {
   } = await supabase.auth.getUser();
 
   if (user?.user_metadata.isAdmin) {
-    return redirect("/portal");
+    return redirect('/portal');
   }
 
   return <Home />;

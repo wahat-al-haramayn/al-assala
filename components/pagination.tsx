@@ -1,14 +1,10 @@
-"use client";
-import { FC } from "react";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+'use client';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { FC } from 'react';
 
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 interface PaginationProps {
   pageCount: number;
@@ -16,19 +12,15 @@ interface PaginationProps {
 }
 
 interface PaginationArrowProps {
-  direction: "left" | "right";
+  direction: 'left' | 'right';
   href: string;
   isDisabled: boolean;
 }
 
-const PaginationArrow: FC<PaginationArrowProps> = ({
-  direction,
-  href,
-  isDisabled,
-}) => {
+const PaginationArrow: FC<PaginationArrowProps> = ({ direction, href, isDisabled }) => {
   const router = useRouter();
-  const isLeft = direction === "left";
-  const disabledClassName = isDisabled ? "opacity-50 cursor-not-allowed" : "";
+  const isLeft = direction === 'left';
+  const disabledClassName = isDisabled ? 'opacity-50 cursor-not-allowed' : '';
 
   return (
     <Button
@@ -37,15 +29,12 @@ const PaginationArrow: FC<PaginationArrowProps> = ({
       aria-disabled={isDisabled}
       disabled={isDisabled}
     >
-      {isLeft ? "«" : "»"}
+      {isLeft ? '«' : '»'}
     </Button>
   );
 };
 
-export function PaginationComponent({
-  pageCount,
-  pageName,
-}: Readonly<PaginationProps>) {
+export function PaginationComponent({ pageCount, pageName }: Readonly<PaginationProps>) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get(pageName)) || 1;
@@ -60,16 +49,10 @@ export function PaginationComponent({
     <Pagination>
       <PaginationContent>
         <PaginationItem>
-          <PaginationArrow
-            direction="left"
-            href={createPageURL(currentPage - 1)}
-            isDisabled={currentPage <= 1}
-          />
+          <PaginationArrow direction="left" href={createPageURL(currentPage - 1)} isDisabled={currentPage <= 1} />
         </PaginationItem>
         <PaginationItem>
-          <span className="p-2 font-semibold text-gray-500">
-            صفحة {currentPage}
-          </span>
+          <span className="p-2 font-semibold text-gray-500">صفحة {currentPage}</span>
         </PaginationItem>
         <PaginationItem>
           <PaginationArrow

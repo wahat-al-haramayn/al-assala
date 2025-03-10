@@ -1,39 +1,25 @@
-"use client";
+'use client';
 
-import { CustomerAvatar } from "@/components/customer/avatar";
-import { CustomerMeasurements } from "@/components/customer/measurements";
-import { Button } from "@/components/ui/button";
-import Loading from "@/components/loading";
-import {
-  Card,
-  CardFooter,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  addCustomerAction,
-  getCustomerByIdAction,
-  getCustomerByPhoneNumberAction,
-} from "@/lib/actions/customer.actions";
-import { addOrderAction } from "@/lib/actions/order.actions";
-import { Customer } from "@/lib/model/customer.model";
-import { Order } from "@/lib/model/order.model";
-import { redirect, useParams, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useRouter } from "next/navigation"; // Usage: App router
-import { Loader2 } from "lucide-react";
+import { CustomerAvatar } from '@/components/customer/avatar';
+import { CustomerMeasurements } from '@/components/customer/measurements';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { getCustomerByIdAction } from '@/lib/actions/customer.actions';
+import { addOrderAction } from '@/lib/actions/order.actions';
+import { Customer } from '@/lib/model/customer.model';
+import { Order } from '@/lib/model/order.model';
+import { Loader2 } from 'lucide-react';
+import { redirect, useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export default function AddOrder() {
   const searchParams = useSearchParams();
-  const customerId = searchParams.get("customerId");
+  const customerId = searchParams.get('customerId');
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,14 +32,14 @@ export default function AddOrder() {
   useEffect(() => {
     const fetchCustomer = async () => {
       if (!customerId) {
-        redirect("/portal/customer");
+        redirect('/portal/customer');
       }
 
       const result = await getCustomerByIdAction(customerId as string);
 
       if (!result) {
-        toast.error("لم يتم العثور على الزبون");
-        redirect("/portal/customer");
+        toast.error('لم يتم العثور على الزبون');
+        redirect('/portal/customer');
       }
 
       setCustomer(result);
@@ -72,9 +58,9 @@ export default function AddOrder() {
 
     const result = await addOrderAction(order);
     if (!result) {
-      toast.error("حدث خطأ أثناء إضافة الطلب");
+      toast.error('حدث خطأ أثناء إضافة الطلب');
     }
-    toast.success("تم إضافة الطلب بنجاح");
+    toast.success('تم إضافة الطلب بنجاح');
     setIsLoading(false);
     redirect(`/portal/customer/${customerId}`);
   };
@@ -114,8 +100,8 @@ export default function AddOrder() {
                 type="number"
                 dir="ltr"
                 placeholder="المبلغ المدفوع"
-                className={`leading-[1.5] text-sm align-top p-3 h-12 ${errors.deposit ? "border-red-500" : ""}`}
-                {...register("deposit", { required: true })}
+                className={`leading-[1.5] text-sm align-top p-3 h-12 ${errors.deposit ? 'border-red-500' : ''}`}
+                {...register('deposit', { required: true })}
               />
 
               <Label htmlFor="notes">تفاصيل الطلب</Label>
@@ -123,8 +109,8 @@ export default function AddOrder() {
                 id="notes"
                 rows={6}
                 placeholder="تفاصيل"
-                className={`${errors.notes ? "border-red-500" : ""}`}
-                {...register("notes", { required: true })}
+                className={`${errors.notes ? 'border-red-500' : ''}`}
+                {...register('notes', { required: true })}
               />
 
               <Label htmlFor="total">المبلغ الكلي</Label>
@@ -133,8 +119,8 @@ export default function AddOrder() {
                 type="number"
                 dir="ltr"
                 placeholder="المبلغ الكلي"
-                className={`${errors.total ? "border-red-500" : ""}`}
-                {...register("total", { required: true })}
+                className={`${errors.total ? 'border-red-500' : ''}`}
+                {...register('total', { required: true })}
               />
             </div>
           </CardContent>

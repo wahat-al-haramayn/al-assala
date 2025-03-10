@@ -1,28 +1,19 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { SearchIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import Loading from "@/components/loading";
+import Loading from '@/components/loading';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { SearchIcon, XIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-import { Order } from "@/lib/model/order.model";
-import {
-  deleteOrderAction,
-  getOrdersAction,
-  searchOrdersAction,
-} from "@/lib/actions/order.actions";
+import { deleteOrderAction, getOrdersAction, searchOrdersAction } from '@/lib/actions/order.actions';
+import { Order } from '@/lib/model/order.model';
 
-import OrderList from "@/components/order-list";
-import OrderListMobile from "@/components/order-list-mobile";
-import toast from "react-hot-toast";
+import OrderList from '@/components/order-list';
+import OrderListMobile from '@/components/order-list-mobile';
+import toast from 'react-hot-toast';
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[] | null>(null);
@@ -30,7 +21,7 @@ export default function Orders() {
   const [loading, setLoading] = useState(false);
   const [showClearSearchButton, setShowClearSearchButton] = useState(false);
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -58,7 +49,7 @@ export default function Orders() {
   };
 
   const clearSearch = () => {
-    setSearch("");
+    setSearch('');
     setShowClearSearchButton(false);
     setSearchOrders(orders);
     setLoading(false);
@@ -67,11 +58,11 @@ export default function Orders() {
   const handleOnDelete = async (id: string) => {
     const result = await deleteOrderAction(id);
     if (result) {
-      toast.success("تم حذف الطلب بنجاح");
+      toast.success('تم حذف الطلب بنجاح');
       setSearchOrders(searchOrders?.filter((order) => order.id !== id) || null);
       setOrders(orders?.filter((order) => order.id !== id) || null);
     } else {
-      toast.error("حدث خطأ ما أثناء حذف الطلب");
+      toast.error('حدث خطأ ما أثناء حذف الطلب');
     }
   };
 
@@ -89,9 +80,7 @@ export default function Orders() {
 
       <Card>
         <CardHeader>
-          <CardDescription>
-            عرض جميع طلباتك أو البحث عن طلب بالتفاصيل
-          </CardDescription>
+          <CardDescription>عرض جميع طلباتك أو البحث عن طلب بالتفاصيل</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex space-x-2 gap-2 ">
@@ -99,28 +88,18 @@ export default function Orders() {
               placeholder="ابحث عن طلب بالتفاصيل"
               value={search}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   handleSearch(search);
                 }
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
             {showClearSearchButton ? (
-              <Button
-                size="sm"
-                variant="ghost"
-                className="shrink-0 "
-                onClick={() => clearSearch()}
-              >
+              <Button size="sm" variant="ghost" className="shrink-0 " onClick={() => clearSearch()}>
                 <XIcon className="w-4 h-4 ml-2" /> مسح
               </Button>
             ) : (
-              <Button
-                size="sm"
-                variant="secondary"
-                className="shrink-0"
-                onClick={() => handleSearch(search)}
-              >
+              <Button size="sm" variant="secondary" className="shrink-0" onClick={() => handleSearch(search)}>
                 <SearchIcon className="w-4 h-4 ml-2" /> بحث
               </Button>
             )}
@@ -135,16 +114,10 @@ export default function Orders() {
               ) : (
                 <>
                   <div className="hidden md:block">
-                    <OrderList
-                      orders={searchOrders}
-                      onDelete={handleOnDelete}
-                    />
+                    <OrderList orders={searchOrders} onDelete={handleOnDelete} />
                   </div>
                   <div className="block md:hidden">
-                    <OrderListMobile
-                      orders={searchOrders}
-                      onDelete={handleOnDelete}
-                    />
+                    <OrderListMobile orders={searchOrders} onDelete={handleOnDelete} />
                   </div>
                 </>
               )}

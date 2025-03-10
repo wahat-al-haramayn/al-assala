@@ -1,26 +1,16 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardFooter,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  addCustomerAction,
-  getCustomerByPhoneNumberAction,
-} from "@/lib/actions/customer.actions";
-import { Customer } from "@/lib/model/customer.model";
-import { Loader2 } from "lucide-react";
-import { redirect } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { addCustomerAction, getCustomerByPhoneNumberAction } from '@/lib/actions/customer.actions';
+import { Customer } from '@/lib/model/customer.model';
+import { Loader2 } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 export default function AddUser() {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,12 +23,10 @@ export default function AddUser() {
 
   const onSubmit = async (data: Customer) => {
     setIsLoading(true);
-    const customerQuery = await getCustomerByPhoneNumberAction(
-      data.phoneNumber
-    );
+    const customerQuery = await getCustomerByPhoneNumberAction(data.phoneNumber);
 
     if (customerQuery) {
-      toast.error("الرقم المدخل مستخدم من قبل زبون آخر");
+      toast.error('الرقم المدخل مستخدم من قبل زبون آخر');
       setIsLoading(false);
       return;
     }
@@ -47,14 +35,14 @@ export default function AddUser() {
     const result = await addCustomerAction(customer);
 
     if (!result) {
-      toast.error("حدث خطأ أثناء إضافة الزبون");
+      toast.error('حدث خطأ أثناء إضافة الزبون');
       setIsLoading(false);
       return;
     }
 
-    toast.success("تم إضافة الزبون بنجاح");
+    toast.success('تم إضافة الزبون بنجاح');
     setIsLoading(false);
-    redirect("/portal/customer");
+    redirect('/portal/customer');
   };
 
   return (
@@ -74,30 +62,25 @@ export default function AddUser() {
                 dir="ltr"
                 id="phoneNumber"
                 type="phone"
-                className={`${errors.phoneNumber ? "border-red-500" : ""}`}
+                className={`${errors.phoneNumber ? 'border-red-500' : ''}`}
                 placeholder="0606060606"
-                {...register("phoneNumber", {
+                {...register('phoneNumber', {
                   required: true,
                   pattern: {
                     value: /^\d{10}$/,
-                    message:
-                      "رقم الهاتف يجب أن يكون 10 أرقام (مثل: 0610203040)",
+                    message: 'رقم الهاتف يجب أن يكون 10 أرقام (مثل: 0610203040)',
                   },
                 })}
               />
-              {errors.phoneNumber && (
-                <div className="text-red-500 text-xs mt-4">
-                  {errors.phoneNumber.message}
-                </div>
-              )}
+              {errors.phoneNumber && <div className="text-red-500 text-xs mt-4">{errors.phoneNumber.message}</div>}
             </div>
             <div className="space-y-1">
               <Label htmlFor="name">الاسم</Label>
               <Input
                 id="name"
                 placeholder="الاسم"
-                className={`${errors.name ? "border-red-500" : ""}`}
-                {...register("name", { required: true })}
+                className={`${errors.name ? 'border-red-500' : ''}`}
+                {...register('name', { required: true })}
               />
             </div>
 
@@ -106,9 +89,7 @@ export default function AddUser() {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">
-                  القياسات
-                </span>
+                <span className="bg-card px-2 text-muted-foreground">القياسات</span>
               </div>
             </div>
 
@@ -120,8 +101,8 @@ export default function AddUser() {
                   id="shoulder"
                   type="number"
                   placeholder="0"
-                  className={`${errors.measurement?.shoulder ? "border-red-500" : ""}`}
-                  {...register("measurement.shoulder", { required: true })}
+                  className={`${errors.measurement?.shoulder ? 'border-red-500' : ''}`}
+                  {...register('measurement.shoulder', { required: true })}
                 />
               </div>
               <div className="space-y-1">
@@ -131,8 +112,8 @@ export default function AddUser() {
                   id="matter"
                   type="number"
                   placeholder="0"
-                  className={`${errors.measurement?.matter ? "border-red-500" : ""}`}
-                  {...register("measurement.matter", { required: true })}
+                  className={`${errors.measurement?.matter ? 'border-red-500' : ''}`}
+                  {...register('measurement.matter', { required: true })}
                 />
               </div>
               <div className="space-y-1">
@@ -142,8 +123,8 @@ export default function AddUser() {
                   id="quarter"
                   type="number"
                   placeholder="0"
-                  className={`${errors.measurement?.quarter ? "border-red-500" : ""}`}
-                  {...register("measurement.quarter", { required: true })}
+                  className={`${errors.measurement?.quarter ? 'border-red-500' : ''}`}
+                  {...register('measurement.quarter', { required: true })}
                 />
               </div>
               <div className="space-y-1">
@@ -153,8 +134,8 @@ export default function AddUser() {
                   id="length"
                   placeholder="0"
                   type="number"
-                  className={`${errors.measurement?.length ? "border-red-500" : ""}`}
-                  {...register("measurement.length", { required: true })}
+                  className={`${errors.measurement?.length ? 'border-red-500' : ''}`}
+                  {...register('measurement.length', { required: true })}
                 />
               </div>
 
@@ -163,9 +144,7 @@ export default function AddUser() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">
-                    البنطلون
-                  </span>
+                  <span className="bg-card px-2 text-muted-foreground">البنطلون</span>
                 </div>
               </div>
 
@@ -176,8 +155,8 @@ export default function AddUser() {
                   id="pantLength"
                   placeholder="0"
                   type="number"
-                  className={`${errors.measurement?.pantLength ? "border-red-500" : ""}`}
-                  {...register("measurement.pantLength", { required: true })}
+                  className={`${errors.measurement?.pantLength ? 'border-red-500' : ''}`}
+                  {...register('measurement.pantLength', { required: true })}
                 />
               </div>
               <div className="space-y-1">
@@ -187,8 +166,8 @@ export default function AddUser() {
                   id="pantWidth"
                   placeholder="0"
                   type="number"
-                  className={`${errors.measurement?.pantWidth ? "border-red-500" : ""}`}
-                  {...register("measurement.pantWidth", { required: true })}
+                  className={`${errors.measurement?.pantWidth ? 'border-red-500' : ''}`}
+                  {...register('measurement.pantWidth', { required: true })}
                 />
               </div>
             </div>

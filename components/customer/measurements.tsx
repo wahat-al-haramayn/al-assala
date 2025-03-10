@@ -1,7 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Customer } from "@/lib/model/customer.model";
-import Link from "next/link";
-import { Label } from "../ui/label";
+import { Customer } from '@/lib/model/customer.model';
+import { Label } from '../ui/label';
 
 export function CustomerMeasurements({ customer }: { customer: Customer }) {
   return (

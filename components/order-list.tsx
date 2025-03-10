@@ -1,46 +1,28 @@
-"use client";
+'use client';
 
-import { ChevronDown, PencilIcon, TrashIcon, UserIcon } from "lucide-react";
+import { ChevronDown, PencilIcon, TrashIcon, UserIcon } from 'lucide-react';
 
-import { Order } from "@/lib/model/order.model";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/table";
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { redirect } from "next/navigation";
-import { Label } from "./ui/label";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
+import { Order } from '@/lib/model/order.model';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Button } from './ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { Label } from './ui/label';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from './ui/table';
 
 import {
   AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from "./ui/alert-dialog";
+} from './ui/alert-dialog';
 
-export default function OrderList({
-  orders,
-  onDelete,
-}: {
-  orders: Order[] | null;
-  onDelete: (id: string) => void;
-}) {
+export default function OrderList({ orders, onDelete }: { orders: Order[] | null; onDelete: (id: string) => void }) {
   if (orders === null || orders.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -62,7 +44,7 @@ export default function OrderList({
       </TableHeader>
       <TableBody>
         {orders?.map((order) => (
-          <TableRow key={"order-" + order.id}>
+          <TableRow key={'order-' + order.id}>
             <TableCell>
               <Link href={`/portal/customer/${order.customerId}`}>
                 <Label className="flex items-center text-blue-700">
@@ -77,12 +59,12 @@ export default function OrderList({
             </TableCell>
             <TableCell>
               {order.orderDate
-                ? new Date(order.orderDate).toLocaleDateString("ar-MA", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
+                ? new Date(order.orderDate).toLocaleDateString('ar-MA', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
                   })
-                : ""}
+                : ''}
             </TableCell>
             <TableCell>
               <AlertDialog>
@@ -114,21 +96,16 @@ export default function OrderList({
 
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle className="text-red-700 flex ">
-                      هل أنت متأكد ؟
-                    </AlertDialogTitle>
+                    <AlertDialogTitle className="text-red-700 flex ">هل أنت متأكد ؟</AlertDialogTitle>
                     <AlertDialogDescription className="flex items-right">
-                      هذا العملية سوف تؤدي إلى حذف الطلب بشكل نهائي وإزالة
-                      البيانات من خادمنا.
+                      هذا العملية سوف تؤدي إلى حذف الطلب بشكل نهائي وإزالة البيانات من خادمنا.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="flex justify-end">
-                    <AlertDialogCancel className="ml-2">
-                      إلغاء
-                    </AlertDialogCancel>
+                    <AlertDialogCancel className="ml-2">إلغاء</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={() => {
-                        onDelete(order.id || "");
+                        onDelete(order.id || '');
                       }}
                     >
                       موافق

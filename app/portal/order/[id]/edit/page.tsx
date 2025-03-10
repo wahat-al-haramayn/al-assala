@@ -1,33 +1,22 @@
-"use client";
+'use client';
 
-import { CustomerAvatar } from "@/components/customer/avatar";
-import { CustomerMeasurements } from "@/components/customer/measurements";
-import Loading from "@/components/loading";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardFooter,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { Textarea } from "@/components/ui/textarea";
-import { getCustomerByIdAction } from "@/lib/actions/customer.actions";
-import {
-  getOrderByIdAction,
-  updateOrderAction,
-} from "@/lib/actions/order.actions";
-import { Customer } from "@/lib/model/customer.model";
-import { Order } from "@/lib/model/order.model";
-import { redirect, useParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import { Loader2, PencilIcon } from "lucide-react";
+import { CustomerAvatar } from '@/components/customer/avatar';
+import { CustomerMeasurements } from '@/components/customer/measurements';
+import Loading from '@/components/loading';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { getCustomerByIdAction } from '@/lib/actions/customer.actions';
+import { getOrderByIdAction, updateOrderAction } from '@/lib/actions/order.actions';
+import { Customer } from '@/lib/model/customer.model';
+import { Order } from '@/lib/model/order.model';
+import { Loader2, PencilIcon } from 'lucide-react';
+import { redirect, useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 export default function EditOrder() {
   const { id } = useParams();
   const [order, setOrder] = useState<Order | null>(null);
@@ -41,8 +30,8 @@ export default function EditOrder() {
       const result = await getOrderByIdAction(id as string);
 
       if (!result) {
-        toast.error("لم يتم العثور على الطلب");
-        redirect("/portal/order");
+        toast.error('لم يتم العثور على الطلب');
+        redirect('/portal/order');
       }
 
       setOrder(result);
@@ -61,8 +50,8 @@ export default function EditOrder() {
       const result = await getCustomerByIdAction(order?.customerId as string);
 
       if (!result) {
-        toast.error("لم يتم العثور على الزبون");
-        redirect("/portal/order");
+        toast.error('لم يتم العثور على الزبون');
+        redirect('/portal/order');
       }
 
       setCustomer(result);
@@ -84,14 +73,14 @@ export default function EditOrder() {
     const result = await updateOrderAction(id as string, order);
 
     if (!result) {
-      toast.error("حدث خطأ أثناء تعديل الطلب");
+      toast.error('حدث خطأ أثناء تعديل الطلب');
       setIsLoading(false);
       return;
     }
 
-    toast.success("تم تعديل الطلب بنجاح");
+    toast.success('تم تعديل الطلب بنجاح');
     setIsLoading(false);
-    redirect("/portal/order");
+    redirect('/portal/order');
   };
 
   if (!order || !customer) {
@@ -135,8 +124,8 @@ export default function EditOrder() {
                 id="deposit"
                 type="number"
                 placeholder="المبلغ المدفوع"
-                className={`${errors.deposit ? "border-red-500" : ""}`}
-                {...register("deposit", { required: true })}
+                className={`${errors.deposit ? 'border-red-500' : ''}`}
+                {...register('deposit', { required: true })}
               />
 
               <Label htmlFor="notes">تفاصيل الطلب</Label>
@@ -144,8 +133,8 @@ export default function EditOrder() {
                 rows={6}
                 id="notes"
                 placeholder="تفاصيل"
-                className={`${errors.notes ? "border-red-500" : ""}`}
-                {...register("notes", { required: true })}
+                className={`${errors.notes ? 'border-red-500' : ''}`}
+                {...register('notes', { required: true })}
               />
 
               <Label htmlFor="total">المبلغ الكلي</Label>
@@ -154,8 +143,8 @@ export default function EditOrder() {
                 id="total"
                 placeholder="المبلغ الكلي"
                 type="number"
-                className={`${errors.total ? "border-red-500" : ""}`}
-                {...register("total", { required: true })}
+                className={`${errors.total ? 'border-red-500' : ''}`}
+                {...register('total', { required: true })}
               />
 
               {/* <Separator className="my-4" />
@@ -171,11 +160,7 @@ export default function EditOrder() {
           </CardContent>
           <CardFooter>
             <Button type="submit" disabled={isLoading}>
-              {isLoading ? (
-                <Loader2 className="w-4 h-4 ml-2 animate-spin" />
-              ) : (
-                <PencilIcon className="w-4 h-4 ml-2" />
-              )}
+              {isLoading ? <Loader2 className="w-4 h-4 ml-2 animate-spin" /> : <PencilIcon className="w-4 h-4 ml-2" />}
               تعديل
             </Button>
             {/* <Button

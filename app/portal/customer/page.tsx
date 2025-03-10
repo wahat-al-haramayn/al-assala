@@ -1,39 +1,24 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@radix-ui/react-dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { PlusIcon, SearchIcon, XIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Customer } from "@/lib/model/customer.model";
-import Loading from "@/components/loading";
-import {
-  getCustomersAction,
-  searchCustomersAction,
-  deleteCustomerAction,
-} from "@/lib/actions/customer.actions";
-import { redirect } from "next/navigation";
-import CustomerList from "@/components/customer/customer-list";
-import { PaginationComponent } from "@/components/pagination";
-import { useSearchParams } from "next/navigation";
-import toast from "react-hot-toast";
+import CustomerList from '@/components/customer/customer-list';
+import Loading from '@/components/loading';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { deleteCustomerAction, getCustomersAction, searchCustomersAction } from '@/lib/actions/customer.actions';
+import { Customer } from '@/lib/model/customer.model';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { PlusIcon, SearchIcon, XIcon } from 'lucide-react';
+import { redirect } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 export default function Customers() {
   const [customers, setCustomers] = useState<Customer[] | null>(null);
-  const [searchCustomers, setSearchCustomers] = useState<Customer[] | null>(
-    null
-  );
+  const [searchCustomers, setSearchCustomers] = useState<Customer[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [showClearSearchButton, setShowClearSearchButton] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     const fetchCustomers = async () => {
@@ -61,7 +46,7 @@ export default function Customers() {
   };
 
   const clearSearch = () => {
-    setSearch("");
+    setSearch('');
     setShowClearSearchButton(false);
     setSearchCustomers(customers);
     setLoading(false);
@@ -70,13 +55,11 @@ export default function Customers() {
   const handleOnDelete = async (id: string) => {
     const result = await deleteCustomerAction(id);
     if (result) {
-      toast.success("تم حذف الزبون بنجاح");
-      setSearchCustomers(
-        searchCustomers?.filter((customer) => customer.id !== id) || null
-      );
+      toast.success('تم حذف الزبون بنجاح');
+      setSearchCustomers(searchCustomers?.filter((customer) => customer.id !== id) || null);
       setCustomers(customers?.filter((customer) => customer.id !== id) || null);
     } else {
-      toast.error("حدث خطأ ما أثناء حذف الزبون");
+      toast.error('حدث خطأ ما أثناء حذف الزبون');
     }
   };
 
@@ -95,7 +78,7 @@ export default function Customers() {
         <Button
           size="sm"
           onClick={() => {
-            redirect("/portal/customer/add");
+            redirect('/portal/customer/add');
           }}
         >
           <PlusIcon className="w-4 h-4 ml-2" />
@@ -104,9 +87,7 @@ export default function Customers() {
       </div>
       <Card>
         <CardHeader>
-          <CardDescription>
-            عرض جميع زبائنك أو البحث عن زبون بالتفاصيل
-          </CardDescription>
+          <CardDescription>عرض جميع زبائنك أو البحث عن زبون بالتفاصيل</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex space-x-2 gap-2">
@@ -114,28 +95,18 @@ export default function Customers() {
               placeholder="ابحث بالرقم الموبايل أو الاسم"
               value={search}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   handleSearch(search);
                 }
               }}
               onChange={(e) => setSearch(e.target.value)}
             />
             {showClearSearchButton ? (
-              <Button
-                size="sm"
-                variant="ghost"
-                className="shrink-0 "
-                onClick={() => clearSearch()}
-              >
+              <Button size="sm" variant="ghost" className="shrink-0 " onClick={() => clearSearch()}>
                 <XIcon className="w-4 h-4 ml-2" /> مسح
               </Button>
             ) : (
-              <Button
-                size="sm"
-                variant="secondary"
-                className="shrink-0"
-                onClick={() => handleSearch(search)}
-              >
+              <Button size="sm" variant="secondary" className="shrink-0" onClick={() => handleSearch(search)}>
                 <SearchIcon className="w-4 h-4 ml-2" /> بحث
               </Button>
             )}
@@ -148,10 +119,7 @@ export default function Customers() {
                   <Loading />
                 </div>
               ) : (
-                <CustomerList
-                  customers={searchCustomers}
-                  onDelete={handleOnDelete}
-                />
+                <CustomerList customers={searchCustomers} onDelete={handleOnDelete} />
               )}
             </div>
           </div>

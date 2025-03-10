@@ -1,8 +1,6 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { redirect } from "next/navigation";
-import Image from "next/image";
+import Image from 'next/image';
 export default function Home() {
   return (
     <div className="relative overflow-hidden w-screen h-screen flex justify-center lg:block ">
@@ -13,9 +11,7 @@ export default function Home() {
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 lg:text-6xl">
               مرحبا بك في منصة واحة الحرمين
             </h1>
-            <p className="mt-4 text-xl text-gray-500">
-              هذه المنصة مخصصة لإدارة العملاء والطلبات لمتجر واحة الحرمين
-            </p>
+            <p className="mt-4 text-xl text-gray-500">هذه المنصة مخصصة لإدارة العملاء والطلبات لمتجر واحة الحرمين</p>
           </div>
           <div>
             <div className="mt-10">

@@ -1,26 +1,17 @@
-"use client";
+'use client';
 
-import { ContactRound } from "lucide-react";
-import { Button } from "./ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import { ContactRound } from 'lucide-react';
+import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
+import { Input } from './ui/input';
+import { Label } from './ui/label';
 
 export function CreateCustomer() {
   return (
     <Card>
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Create an account</CardTitle>
-        <CardDescription>
-          Enter your email below to create your account
-        </CardDescription>
+        <CardDescription>Enter your email below to create your account</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <div className="grid grid-cols-2 gap-6">
@@ -36,9 +27,7 @@ export function CreateCustomer() {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">
-              Or continue with
-            </span>
+            <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
           </div>
         </div>
         <div className="grid gap-2">

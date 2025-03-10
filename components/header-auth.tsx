@@ -1,10 +1,9 @@
-import { signOutAction } from "@/lib/actions/auth.actions";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import Link from "next/link";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
-import { createClient } from "@/utils/supabase/server";
-import { LogOutIcon, LogInIcon, UserPlusIcon } from "lucide-react";
+import { signOutAction } from '@/lib/actions/auth.actions';
+import { hasEnvVars } from '@/utils/supabase/check-env-vars';
+import { createClient } from '@/utils/supabase/server';
+import { LogInIcon, LogOutIcon, UserPlusIcon } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from './ui/button';
 
 export default async function AuthButton() {
   const supabase = await createClient();
@@ -21,7 +20,7 @@ export default async function AuthButton() {
             <Button
               asChild
               size="sm"
-              variant={"outline"}
+              variant={'outline'}
               disabled
               className="opacity-75 cursor-none pointer-events-none"
             >
@@ -33,7 +32,7 @@ export default async function AuthButton() {
             <Button
               asChild
               size="sm"
-              variant={"default"}
+              variant={'default'}
               disabled
               className="opacity-75 cursor-none pointer-events-none"
             >
@@ -54,7 +53,7 @@ export default async function AuthButton() {
         <span className="font-bold mr-1">{user.user_metadata.displayName}</span>
       </div>
       <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
+        <Button type="submit" variant={'outline'}>
           <LogOutIcon className="w-4 h-4 ml-2" />
           تسجيل الخروج
         </Button>
@@ -62,13 +61,13 @@ export default async function AuthButton() {
     </div>
   ) : (
     <div className="flex gap-2">
-      <Button asChild size="sm" variant={"outline"}>
+      <Button asChild size="sm" variant={'outline'}>
         <Link href="/sign-in">
           <LogInIcon className="w-4 h-4 ml-2" />
           تسجيل الدخول
         </Link>
       </Button>
-      <Button asChild size="sm" variant={"default"}>
+      <Button asChild size="sm" variant={'default'}>
         <Link href="/sign-up">
           <UserPlusIcon className="w-4 h-4 ml-2" />
           اشترك

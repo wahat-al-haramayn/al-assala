@@ -101,3 +101,15 @@ export const getOrdersByCustomerIdAction = async (customerId: string): Promise<O
 
     return data;
 };
+
+export const deleteOrderAction = async (id: string) => {
+    const supabase = await createClient();
+    const { error } = await supabase.from("orders").delete().eq("id", id);
+
+    if (error) {
+        console.error(error.code + " " + error.message);
+        return false;
+    }
+
+    return true;
+};

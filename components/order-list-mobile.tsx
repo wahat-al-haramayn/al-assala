@@ -4,15 +4,44 @@ import { Order } from "@/lib/model/order.model";
 import { Label } from "./ui/label";
 import { Separator } from "./ui/separator";
 import Link from "next/link";
-import { PencilIcon, PhoneIcon, UserIcon } from "lucide-react";
+import {
+  ChevronDown,
+  FolderOpenIcon,
+  PencilIcon,
+  PhoneIcon,
+  TrashIcon,
+  UserIcon,
+} from "lucide-react";
 import { redirect, useSearchParams } from "next/navigation";
 import { PaginationComponent } from "./pagination";
 import { Button } from "./ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "./ui/alert-dialog";
 
 export default function OrderListMobile({
   orders,
+  onDelete,
 }: {
   orders: Order[] | null;
+  onDelete: (id: string) => void;
 }) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("orderPage")) || 1;
@@ -46,6 +75,57 @@ export default function OrderListMobile({
                 <PencilIcon className="w-4 h-4 ml-2" />
                 تعديل
               </Button>
+              <AlertDialog>
+                <DropdownMenu dir="rtl">
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <ChevronDown className="w-4 h-4 ml-2" />
+                      العمليات
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem
+                      className="flex items-center justify-evenly"
+                      onClick={() => {
+                        redirect(`/portal/order/${order.id}/edit`);
+                      }}
+                    >
+                      <PencilIcon className="w-4 h-4 " />
+                      تعديل
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-700 focus:text-red-700">
+                      <AlertDialogTrigger className="flex items-center justify-evenly w-full">
+                        <TrashIcon className="w-4 h-4 " />
+                        حذف
+                      </AlertDialogTrigger>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-red-700 flex ">
+                      هل أنت متأكد ؟
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="flex items-right">
+                      هذا العملية سوف تؤدي إلى حذف الطلب بشكل نهائي وإزالة
+                      البيانات من خادمنا.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="flex justify-end">
+                    <AlertDialogCancel className="ml-2">
+                      إلغاء
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => {
+                        onDelete(order.id || "");
+                      }}
+                    >
+                      موافق
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
 
             <div className="flex flex-col gap-2">

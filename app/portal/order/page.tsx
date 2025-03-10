@@ -15,12 +15,14 @@ import Loading from "@/components/loading";
 
 import { Order } from "@/lib/model/order.model";
 import {
+  deleteOrderAction,
   getOrdersAction,
   searchOrdersAction,
 } from "@/lib/actions/order.actions";
 
 import OrderList from "@/components/order-list";
 import OrderListMobile from "@/components/order-list-mobile";
+import toast from "react-hot-toast";
 
 export default function Orders() {
   const [orders, setOrders] = useState<Order[] | null>(null);
@@ -60,6 +62,17 @@ export default function Orders() {
     setShowClearSearchButton(false);
     setSearchOrders(orders);
     setLoading(false);
+  };
+
+  const handleOnDelete = async (id: string) => {
+    const result = await deleteOrderAction(id);
+    if (result) {
+      toast.success("تم حذف الطلب بنجاح");
+      setSearchOrders(searchOrders?.filter((order) => order.id !== id) || null);
+      setOrders(orders?.filter((order) => order.id !== id) || null);
+    } else {
+      toast.error("حدث خطأ ما أثناء حذف الطلب");
+    }
   };
 
   if (orders === null) {
@@ -122,10 +135,16 @@ export default function Orders() {
               ) : (
                 <>
                   <div className="hidden md:block">
-                    <OrderList orders={searchOrders} />
+                    <OrderList
+                      orders={searchOrders}
+                      onDelete={handleOnDelete}
+                    />
                   </div>
                   <div className="block md:hidden">
-                    <OrderListMobile orders={searchOrders} />
+                    <OrderListMobile
+                      orders={searchOrders}
+                      onDelete={handleOnDelete}
+                    />
                   </div>
                 </>
               )}

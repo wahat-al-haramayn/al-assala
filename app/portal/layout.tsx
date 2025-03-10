@@ -11,7 +11,7 @@ export default async function Layout({
         <Nav />
       </div>
 
-      <div className="flex flex-col gap-20 max-w-2xl p-5 w-full">
+      <div className="flex flex-col gap-20 max-w-2xl sm:max-w-4xl p-5 w-full">
         {children}
       </div>
     </div>

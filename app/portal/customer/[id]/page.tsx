@@ -14,14 +14,20 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PencilIcon, SearchIcon, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loading from "@/components/loading";
-import { getCustomerByIdAction } from "@/lib/actions/customer.actions";
+import {
+  deleteCustomerAction,
+  getCustomerByIdAction,
+} from "@/lib/actions/customer.actions";
 import { redirect, useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Customer } from "@/lib/model/customer.model";
 import Link from "next/link";
 import { CustomerMeasurements } from "@/components/customer/measurements";
 import { Order } from "@/lib/model/order.model";
-import { getOrdersByCustomerIdAction } from "@/lib/actions/order.actions";
+import {
+  deleteOrderAction,
+  getOrdersByCustomerIdAction,
+} from "@/lib/actions/order.actions";
 import OrderList from "@/components/order-list";
 import OrderListMobile from "@/components/order-list-mobile";
 
@@ -29,6 +35,16 @@ export default function ViewCustomer() {
   const { id } = useParams();
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
+
+  const handleOnOrderDelete = async (id: string) => {
+    const result = await deleteOrderAction(id);
+    if (result) {
+      toast.success("تم حذف الطلب بنجاح");
+      setOrders(orders?.filter((order) => order.id !== id) ?? null);
+    } else {
+      toast.error("حدث خطأ ما أثناء حذف الطلب");
+    }
+  };
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -133,10 +149,13 @@ export default function ViewCustomer() {
             </CardHeader>
             <CardContent>
               <div className="hidden md:block">
-                <OrderList orders={orders} />
+                <OrderList orders={orders} onDelete={handleOnOrderDelete} />
               </div>
               <div className="block md:hidden">
-                <OrderListMobile orders={orders} />
+                <OrderListMobile
+                  orders={orders}
+                  onDelete={handleOnOrderDelete}
+                />
               </div>
             </CardContent>
           </Card>

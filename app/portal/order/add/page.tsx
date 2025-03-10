@@ -31,15 +31,7 @@ import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation"; // Usage: App router
 import { Loader2 } from "lucide-react";
 
-export default function AddOrderSuspense() {
-  return (
-    <Suspense fallback={<Loading />}>
-      <AddOrder />
-    </Suspense>
-  );
-}
-
-function AddOrder() {
+export default function AddOrder() {
   const searchParams = useSearchParams();
   const customerId = searchParams.get("customerId");
   const [customer, setCustomer] = useState<Customer | null>(null);

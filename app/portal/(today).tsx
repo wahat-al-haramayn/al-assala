@@ -1,8 +1,8 @@
 "use client";
+
 import { redirect } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CustomerList from "@/components/customer/customer-list";
-import { Separator } from "@/components/ui/separator";
 import OrderList from "@/components/order-list";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
@@ -10,6 +10,7 @@ import { Order } from "@/lib/model/order.model";
 import { Customer } from "@/lib/model/customer.model";
 import OrderListMobile from "@/components/order-list-mobile";
 import { deleteCustomerAction } from "@/lib/actions/customer.actions";
+import { deleteOrderAction } from "@/lib/actions/order.actions";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
@@ -28,7 +29,7 @@ export default function Today({
     setLoadedOrders(orders);
   }, [customers, orders]);
 
-  const handleOnDelete = async (id: string) => {
+  const handleOnCustomerDelete = async (id: string) => {
     const result = await deleteCustomerAction(id);
     if (result) {
       toast.success("تم حذف الزبون بنجاح");
@@ -37,6 +38,16 @@ export default function Today({
       );
     } else {
       toast.error("حدث خطأ ما أثناء حذف الزبون");
+    }
+  };
+
+  const handleOnOrderDelete = async (id: string) => {
+    const result = await deleteOrderAction(id);
+    if (result) {
+      toast.success("تم حذف الطلب بنجاح");
+      setLoadedOrders(loadedOrders.filter((order) => order.id !== id));
+    } else {
+      toast.error("حدث خطأ ما أثناء حذف الطلب");
     }
   };
 
@@ -62,7 +73,7 @@ export default function Today({
           <div className="space-y-4">
             <CustomerList
               customers={loadedCustomers}
-              onDelete={handleOnDelete}
+              onDelete={handleOnCustomerDelete}
             />
           </div>
         </CardContent>
@@ -77,10 +88,13 @@ export default function Today({
         </CardHeader>
         <CardContent>
           <div className="hidden md:block">
-            <OrderList orders={loadedOrders} />
+            <OrderList orders={loadedOrders} onDelete={handleOnOrderDelete} />
           </div>
           <div className="block md:hidden">
-            <OrderListMobile orders={loadedOrders} />
+            <OrderListMobile
+              orders={loadedOrders}
+              onDelete={handleOnOrderDelete}
+            />
           </div>
         </CardContent>
       </Card>

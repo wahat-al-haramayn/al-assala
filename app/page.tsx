@@ -1,12 +1,12 @@
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import Home from './(home)';
+import Home from './portal/_components/home';
 
 export default async function HomePage() {
   const supabase = await createClient();
 
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser();
 
   if (user?.user_metadata.isAdmin) {

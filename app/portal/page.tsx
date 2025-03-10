@@ -2,17 +2,17 @@ import { getTodayCustomersAction } from '@/lib/actions/customer.actions';
 import { getTodayOrdersAction } from '@/lib/actions/order.actions';
 import { createClient } from '@/utils/supabase/server';
 import { redirect } from 'next/navigation';
-import Today from './(today)';
+import Today from './_components/today';
 
 export default async function PortalPage() {
   const [customers, orders, supabase] = await Promise.all([
     getTodayCustomersAction(),
     getTodayOrdersAction(),
-    createClient(),
+    createClient()
   ]);
 
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser();
 
   if (!user) {
